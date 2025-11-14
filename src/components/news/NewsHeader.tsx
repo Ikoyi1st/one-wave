@@ -21,27 +21,32 @@ function TopUtilities() {
 function BrandAndBanner() {
   return (
     <div>
-      <Link href="/" className="flex items-center gap-3">
-          <Image src="/logo.png" alt="Onewave News" width={180} height={32} className=" mt-4 ml-4" />
+      {/* Logo positioned at the top-left */}
+      <div className="mx-auto max-w-7xl px-6 pt-2">
+        <Link href="/" className="inline-flex items-center gap-3">
+          <Image src="/logo.png" alt="Onewave News" width={180} height={32} className="mt-2" />
         </Link>
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-2">
-        {/* Ad banner with container.png and Forces Network text */}
-        <div className="hidden items-center overflow-hidden  bg-white md:flex">
-           <div className="px-4 text-zinc-800">
-            <p className="text-[46px] font-bold leading-tight">The Forces Network</p>
-            <p className="text-[16px] leading-snug text-zinc-600">
-              Leading a New Era of Inclusive Forces and Development <br></br>
+        {/* Row with left copy and right banner image, matching the screenshot layout */}
+        <div className="mt-2 grid items-center  md:grid-cols-[1fr_1.8fr]">
+          {/* Left: Forces Network copy */}
+          <div className="hidden md:block">
+            <h2 className="font-display text-3xl font-bold leading-tight md:text-4xl">The Forces Network</h2>
+            <p className="mt-2 text-sm leading-snug text-zinc-600">
+              Leading a New Era of Inclusive Forces and Development
+              <br />
               Through Sustainable Innovation
             </p>
           </div>
-          <Image
-            src="/container.png"
-            alt="Nigeria Police Summit"
-            width={150}
-            height={96}
-            className="h-full w-auto object-cover"
-          />
-         
+          {/* Right: Banner image */}
+          <div className="h-full overflow-hidden bg-white md:h-full lg:h-full lg:w-1800px">
+            <Image
+              src="/container.png"
+              alt="Nigeria Police Summit"
+              width={1200}
+              height={200}
+              className="h-full w-full object-cover"
+            />
+          </div>
         </div>
       </div>
       <TopUtilities />
