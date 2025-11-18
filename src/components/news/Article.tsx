@@ -7,12 +7,10 @@ export type Article = {
   title: string;
   category?: string;
   date?: string;
-  // Ensure image is treated as optional string
+ 
   image?: string | undefined; 
   meta?: string;
 };
-
-// ... (rest of your Article.tsx file remains the same)
 
 export function ArticleCard({ article, large = false, showImage = true }: { article: Article; large?: boolean; showImage?: boolean }) {
 // ... (rest of ArticleCard content remains the same)
