@@ -5,13 +5,13 @@ import { useState } from "react";
 
 function TopUtilities() {
   return (
-    <div className="border-b border-[--color-border] text-xs">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-2">
+    <div className="font-semibold text-xs mt-4 mb-4 text-[14px]">
+      <div className="mx-auto flex max-w-7xl items-center justify-end gap-4 px-6 py-2" style={{fontFamily: '"Inter", sans-serif'}}>
         <nav className="flex items-center gap-6 text-zinc-600">
-          <Link href="#">Industries we serve ▾</Link>
-          <Link href="#">Who we are</Link>
-          <Link href="#">Events</Link>
-          <Link href="#">Careers</Link>
+          <Link href="#">INDUSTRIES  WE SERVE ▾</Link>
+          <Link href="#">WHO WE ARE ▾</Link>
+          <Link href="#">EVENTS ▾</Link>
+          <Link href="#">CAREERS</Link>
         </nav>
       </div>
     </div>
@@ -24,21 +24,22 @@ function BrandAndBanner() {
       {/* Logo positioned at the top-left */}
       <div className="mx-auto max-w-7xl px-6 pt-2">
         <Link href="/" className="inline-flex items-center gap-3">
+          {/* Adjusted to match the size and spacing in the screenshot context */}
           <Image src="/logo.png" alt="Onewave News" width={180} height={32} className="mt-2" />
         </Link>
         {/* Row with left copy and right banner image, matching the screenshot layout */}
         <div className="mt-2 grid items-center  md:grid-cols-[1fr_1.8fr]">
           {/* Left: Forces Network copy */}
           <div className="hidden md:block">
-            <h2 className="font-display text-3xl font-bold leading-tight md:text-4xl">The Forces Network</h2>
-            <p className="mt-2 text-sm leading-snug text-zinc-600">
+            <h2 className="font-display text-3xl lg:text-[42px] font-bold leading-tight md:text-4xl">The Forces Network</h2>
+            <p className="mt-2 text-[17px] leading-snug text-zinc-600">
               Leading a New Era of Inclusive Forces and Development
               <br />
               Through Sustainable Innovation
             </p>
           </div>
           {/* Right: Banner image */}
-          <div className="h-full overflow-hidden bg-white md:h-full lg:h-full lg:w-1800px">
+          <div className="h-full overflow-hidden bg-white md:h-full lg:h-full">
             <Image
               src="/container.png"
               alt="Nigeria Police Summit"
@@ -49,54 +50,55 @@ function BrandAndBanner() {
           </div>
         </div>
       </div>
-      <TopUtilities />
     </div>
   );
 }
 
 function PrimaryNav() {
   const items = [
-    "Home",
-    "News and Insights",
-    "Business",
-    "Future",
-    "Maritime",
-    "Economy & Market",
+    { name: "Home", hasDropdown: false },
+    { name: "News and Insights", hasDropdown: false },
+    { name: "Business", hasDropdown: true },
+    { name: "Future", hasDropdown: true },
+    { name: "Maritime", hasDropdown: true },
+    { name: "Economy & Market", hasDropdown: true },
   ];
   const [showSearch, setShowSearch] = useState(false);
   return (
-    <div className="border-y border-[--color-border] bg-[#2E3D68] ">
-      <div className="mx-auto max-w-7xl px-6 ">
-        <nav className="-mx-2 flex flex-wrap items-center gap-2 py-2 text-xs md:text-[13px] text-white ">
+    <div className="border-y border-[--color-border] bg-[#2E3D68] font-semibold">
+      <div className="mx-auto max-w-7xl px-10 ">
+        <nav className="flex items-center justify-between py-2 text-xs md:text-[13px] text-white ">
          
+          <div className="-mx-2 flex items-center gap-2">
+             {/* Nav items */}
+            {items.map((i) => (
+              // Added conditional rendering for dropdown arrow
+              <Link key={i.name} href="#" className={` text-[18px] rounded px-3 py-1 text-white ${i.name === 'Home' ? 'font-bold bg-black/10' : 'hover:bg-black/5'}`}>
+                {i.name} {i.hasDropdown && "▾"}
+              </Link>
+            ))}
+          </div>
 
-          {/* Nav items */}
-          {items.map((i) => (
-            <Link key={i} href="#" className="rounded px-2 py-1 text-white hover:bg-black/5 ">
-              {i}
-            </Link>
-          ))}
-
-            {/* Search on the left with icon toggle */}
-          <div className="flex items-center gap-2 pr-2">
+          {/* Search on the FAR RIGHT, as seen in the screenshot */}
+          <div className="flex items-center gap-2 ">
+            {showSearch && (
+              <input
+                aria-label="Search"
+                placeholder="Search..."
+                autoFocus
+                className="h-8 w-48 rounded-full border border-white/50 bg-[#fff] px-3 text-xs text-black outline-none placeholder:text-[#2E3D68]"
+              />
+            )}
             <button
               aria-label="Toggle search"
               onClick={() => setShowSearch((s) => !s)}
-              className="rounded p-1 text-white hover:bg-black/5"
+              className="p-1 text-white hover:text-white/80"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
                 <circle cx="11" cy="11" r="7"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </button>
-            {showSearch && (
-              <input
-                aria-label="Search"
-                placeholder="Search..."
-                autoFocus
-                className="h-8 w-48 rounded-full border border-[--color-border] bg-transparent px-3 text-xs outline-none"
-              />
-            )}
           </div>
         </nav>
       </div>
@@ -105,12 +107,72 @@ function PrimaryNav() {
 }
 
 export function NewsTicker() {
+  const headline =
+    "Oil slides to 17-week low on US and Asia economic worries, and expected OPEC+ production increase";
+
   return (
-    <div className="border-b border-[--color-border] bg-white">
-      <div className="mx-auto flex max-w-7xl items-center gap-3 px-6 py-2 text-xs">
-        <span className="rounded bg-[--color-brand] px-2 py-0.5 text-white">Breaking News</span>
-        <div className="truncate text-zinc-700">
-          Oil slides to 17-week low on US and Asia economic worries, and expected OPEC+ production increase
+    <div className="mt-6 mb-6 w-full bg-[#221919]">
+      <div className="mx-auto flex items-stretch text-xs sm:px-6">
+        <div
+          className="flex items-center justify-center bg-[#F2B743] px-3 py-2 text-[10px] font-semibold text-white sm:px-4 sm:text-xs"
+          style={{ fontFamily: '"Inter", sans-serif' }}
+        >
+          BREAKING NEWS
+        </div>
+
+        {/* Auto-sliding headline, especially useful on mobile */}
+        <div className="relative flex-1 overflow-hidden bg-[#221919]">
+          <div
+            className="ticker-text whitespace-nowrap py-2 pl-4 pr-2 text-[11px] font-semibold text-white sm:py-3 sm:text-xs md:text-sm"
+            style={{ fontFamily: '"Inter", sans-serif' }}
+          >
+            {/* duplicate headline so animation loops seamlessly on small screens */}
+            <span>{headline}</span>
+            <span className="ml-12 sm:hidden">{headline}</span>
+          </div>
+
+          {/* Scoped keyframes: animate only on small screens */}
+          <style jsx>{`
+            @keyframes ticker {
+              0% {
+                transform: translateX(100%);
+              }
+              100% {
+                transform: translateX(-100%);
+              }
+            }
+            .ticker-text {
+              animation: ticker 20s linear infinite;
+            }
+            @media (min-width: 640px) {
+              .ticker-text {
+                animation: none;
+                transform: translateX(0);
+              }
+            }
+          `}</style>
+        </div>
+
+        {/* Arrow controls remain on the right on larger screens */}
+        <div className="ml-2 hidden shrink-0 items-center text-white/50 sm:flex">
+          <button className="h-full text-white">
+            <Image
+              src="/left-arrow.png"
+              alt="Previous headline"
+              width={20}
+              height={20}
+              className="mt-1 flex-shrink-0 hover:bg-white/10 sm:h-[24px] sm:w-[24px] md:h-[28px] md:w-[28px]"
+            />
+          </button>
+          <button className="h-full px-2 text-white">
+            <Image
+              src="/right-arrow.png"
+              alt="Next headline"
+              width={20}
+              height={20}
+              className="mt-1 flex-shrink-0 hover:bg-white/10 sm:h-[24px] sm:w-[24px] md:h-[28px] md:w-[28px]"
+            />
+          </button>
         </div>
       </div>
     </div>
@@ -120,8 +182,8 @@ export function NewsTicker() {
 export default function NewsHeader() {
   return (
     <header className="w-full">
-      {/* <TopUtilities /> */}
       <BrandAndBanner />
+      <TopUtilities /> 
       <PrimaryNav />
       <NewsTicker />
     </header>

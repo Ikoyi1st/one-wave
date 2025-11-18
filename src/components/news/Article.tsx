@@ -1,20 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 
+// Adjusted Article type for clarity and adherence to standard practices
 export type Article = {
   id: string;
   title: string;
   category?: string;
   date?: string;
-  image?: string;
+  // Ensure image is treated as optional string
+  image?: string | undefined; 
   meta?: string;
 };
 
+// ... (rest of your Article.tsx file remains the same)
+
 export function ArticleCard({ article, large = false, showImage = true }: { article: Article; large?: boolean; showImage?: boolean }) {
+// ... (rest of ArticleCard content remains the same)
   return (
     <article className={large ? "group" : showImage ? "group flex gap-3" : "group"}>
       {showImage && large ? (
-        <Link href="#" className="relative block overflow-hidden rounded-2xl border border-[--color-border]">
+        <Link href="#" className="relative block overflow-hidden">
           <Image
             src={article.image ?? "/placeholder-hero.svg"}
             alt=""
@@ -24,7 +29,7 @@ export function ArticleCard({ article, large = false, showImage = true }: { arti
           />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 sm:p-6">
             {article.category && (
-              <span className="inline-block rounded bg-white/90 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-black">
+              <span className="inline-block bg-white/90 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-black">
                 {article.category}
               </span>
             )}
@@ -39,7 +44,7 @@ export function ArticleCard({ article, large = false, showImage = true }: { arti
       ) : showImage ? (
         <Link
           href="#"
-          className="shrink-0 overflow-hidden rounded-lg border border-[--color-border]"
+          className="shrink-0 overflow-hidden"
         >
           <Image
             src={article.image ?? "/placeholder-hero.svg"}
