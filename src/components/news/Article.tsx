@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// Adjusted Article type for clarity and adherence to standard practices
 export type Article = {
   id: string;
   title: string;
@@ -13,7 +12,6 @@ export type Article = {
 };
 
 export function ArticleCard({ article, large = false, showImage = true }: { article: Article; large?: boolean; showImage?: boolean }) {
-// ... (rest of ArticleCard content remains the same)
   return (
     <article className={large ? "group" : showImage ? "group flex gap-3" : "group"}>
       {showImage && large ? (
