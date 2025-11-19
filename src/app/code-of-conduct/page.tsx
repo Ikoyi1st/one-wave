@@ -26,7 +26,7 @@ export default function CodeOfConductPage() {
           </div>
 
           {/* Sub navigation bar */}
-          <div className="bg-[#F5F5F5] text-[14px]">
+          <div className="bg-[#F5F5F5] text-[15px]">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <nav className="flex flex-wrap items-center gap-4 py-4 font-semibold text-[#221919]">
                 {/* Active Link: Code of Conduct */}
@@ -58,7 +58,7 @@ export default function CodeOfConductPage() {
         {/* 1. Code of Conduct */}
         <section
           id="code-of-conduct"
-          className="bg-white py-12 text-[13px] leading-relaxed text-[#4B5563] sm:text-base md:py-16"
+          className="bg-white py-12 text-[13px] leading-relaxed text-[#221919] sm:text-base md:py-16"
         >
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <h2 className="text-xl font-semibold tracking-tight text-[#2E3D68] sm:text-2xl">
