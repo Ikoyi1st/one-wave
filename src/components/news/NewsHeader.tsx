@@ -4,16 +4,68 @@ import Image from "next/image";
 import { useState } from "react";
 
 function TopUtilities() {
+  const [showEvents, setShowEvents] = useState(false);
+  const [showIndustries, setShowIndustries] = useState(false);
+
   return (
     <div className="mt-3 mb-3 font-semibold text-[10px] sm:text-xs md:text-sm">
       <div
         className="mx-auto flex max-w-7xl items-center justify-end gap-3 px-4 py-1 sm:px-6 sm:py-2"
         style={{ fontFamily: '"Inter", sans-serif' }}
       >
-        <nav className="flex items-center gap-3 whitespace-nowrap text-zinc-600 overflow-x-auto no-scrollbar">
-          <Link href="#">INDUSTRIES WE SERVE ▾</Link>
-          <Link href="#">WHO WE ARE ▾</Link>
-          <Link href="#">EVENTS ▾</Link>
+        <nav className="relative flex items-center gap-3 whitespace-nowrap text-zinc-600 overflow-visible">
+          {/* Industries We Serve dropdown */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => {
+                setShowIndustries((v) => !v);
+                setShowEvents(false);
+              }}
+              className="inline-flex items-center gap-1 text-inherit focus:outline-none"
+            >
+              <span>INDUSTRIES WE SERVE</span>
+              <span className="text-[16px]">▾</span>
+            </button>
+
+            {showIndustries && (
+              <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Business &amp; Finance</button>
+                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream Oil</button>
+                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</button>
+                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Electricity</button>
+                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Maritime &amp; Ports</button>
+                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Offshore Vessels</button>
+                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream Oil</button>
+              </div>
+            )}
+          </div>
+
+          <Link href="/who-we-are">WHO WE ARE</Link>
+
+          {/* Events dropdown */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => {
+                setShowEvents((v) => !v);
+                setShowIndustries(false);
+              }}
+              className="inline-flex items-center gap-1 text-inherit focus:outline-none"
+           >
+              <span>EVENTS</span>
+              <span className="text-[16px]">▾</span>
+            </button>
+
+            {showEvents && (
+              <div className="absolute left-1/2 top-full z-30 mt-2 w-32 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Webinar</button>
+                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Conference</button>
+                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Award</button>
+              </div>
+            )}
+          </div>
+
           <Link href="#">CAREERS</Link>
         </nav>
       </div>
@@ -30,6 +82,8 @@ function BrandAndBanner() {
           {/* Adjusted to match the size and spacing in the screenshot context */}
           <Image src="/logo.png" alt="Onewave News" width={180} height={32} className="mt-2" />
         </Link>
+
+        {/* Banner */}
         {/* Row with left copy and right banner image, matching the screenshot layout */}
         <div className="mt-2 grid items-center  md:grid-cols-[1fr_1.8fr]">
           {/* Left: Forces Network copy */}
@@ -57,6 +111,16 @@ function BrandAndBanner() {
   );
 }
 
+function CompactLogoBar() {
+  return (
+    <div className="mx-auto max-w-7xl px-6 pt-2 pb-2">
+      <Link href="/" className="inline-flex items-center gap-3">
+        <Image src="/logo.png" alt="Onewave News" width={180} height={32} className="mt-2" />
+      </Link>
+    </div>
+  );
+}
+
 function PrimaryNav() {
   const items = [
     { name: "Home", hasDropdown: false },
@@ -70,6 +134,17 @@ function PrimaryNav() {
   const secondRow = items.slice(4);
 
   const [showSearch, setShowSearch] = useState(false);
+  const [showFuture, setShowFuture] = useState(false);
+  const [showBusiness, setShowBusiness] = useState(false);
+  const [showMaritime, setShowMaritime] = useState(false);
+  const [showEconomy, setShowEconomy] = useState(false);
+
+  const closeAllDropdowns = () => {
+    setShowBusiness(false);
+    setShowFuture(false);
+    setShowMaritime(false);
+    setShowEconomy(false);
+  };
 
   return (
     <div className="border-y border-[--color-border] bg-[#2E3D68] font-semibold text-white">
@@ -78,27 +153,133 @@ function PrimaryNav() {
         <div className="flex flex-col gap-2 py-2 text-[11px] sm:text-xs md:hidden">
           <div className="flex flex-wrap items-center gap-1">
             {firstRow.map((i) => (
-              <Link
-                key={i.name}
-                href="#"
-                className={`rounded px-2 py-1 text-[11px] sm:text-xs text-white ${
-                  i.name === 'Home' ? 'font-bold bg-black/10' : 'hover:bg-black/5'
-                }`}
-              >
-                {i.name} {i.hasDropdown && "▾"}
-              </Link>
+              i.name === "Business" ? (
+                <div key={i.name} className="relative">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = !showBusiness;
+                      closeAllDropdowns();
+                      setShowBusiness(next);
+                    }}
+                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
+                  >
+                    <span>{i.name}</span>
+                    <span className="text-[16px]">▾</span>
+                  </button>
+                  {showBusiness && (
+                    <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream oil &amp; gas</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream oil &amp; gas</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Power</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Energy</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Natural Gas</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Money</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</button>
+                    </div>
+                  )}
+                </div>
+              ) : i.name === "Future" ? (
+                <div key={i.name} className="relative">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = !showFuture;
+                      closeAllDropdowns();
+                      setShowFuture(next);
+                    }}
+                    className={`rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5 inline-flex items-center gap-1`}
+                  >
+                    <span>{i.name}</span>
+                    <span className="text-[16px]">▾</span>
+                  </button>
+                  {showFuture && (
+                    <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Science</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Technology</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Education</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Health</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Culture</button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={i.name}
+                  href={i.name === "Home" ? "/" : "#"}
+                  className={`rounded px-2 py-1 text-[11px] sm:text-xs text-white ${
+                    i.name === 'Home' ? 'font-bold bg-black/10' : 'hover:bg-black/5'
+                  }`}
+                >
+                  {i.name} {i.hasDropdown && "▾"}
+                </Link>
+              )
             ))}
           </div>
           <div className="flex items-center justify-between gap-2">
             <div className="flex flex-wrap items-center gap-1">
               {secondRow.map((i) => (
+                i.name === "Maritime" ? (
+                  <div key={i.name} className="relative">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = !showMaritime;
+                        closeAllDropdowns();
+                        setShowMaritime(next);
+                      }}
+                      className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
+                    >
+                      <span>{i.name}</span>
+                      <span className="text-[8px]">▾</span>
+                    </button>
+                    {showMaritime && (
+                      <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Transport</button>
+                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Port</button>
+                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Safety</button>
+                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Ship Operations</button>
+                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Sustainability</button>
+                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Offshores</button>
+                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Repairs</button>
+                      </div>
+                    )}
+                  </div>
+                ) : i.name === "Economy & Market" ? (
+                  <div key={i.name} className="relative">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = !showEconomy;
+                        closeAllDropdowns();
+                        setShowEconomy(next);
+                      }}
+                      className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
+                    >
+                      <span>{i.name}</span>
+                      <span className="text-[16px]">▾</span>
+                    </button>
+                    {showEconomy && (
+                      <div className="absolute left-1/2 top-full z-30 mt-2 w-36 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Money</button>
+                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Aviation</button>
+                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</button>
+                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  // The original code had an extra, incorrect ternary condition here,
+                  // which was causing the parsing error. It's replaced with the correct
+                  // default Link behavior for non-dropdown items in the second row.
                 <Link
                   key={i.name}
-                  href="#"
+                  href={i.name === "Home" ? "/" : "#"}
                   className="rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
                 >
-                  {i.name} {i.hasDropdown && "▾"}
-                </Link>
+                    {i.name} {i.hasDropdown && "▾"}
+                  </Link>
+                )
               ))}
             </div>
             <div className="flex items-center gap-2">
@@ -135,15 +316,116 @@ function PrimaryNav() {
         <nav className="hidden items-center justify-between py-2 text-[11px] sm:text-xs md:flex md:text-[13px]">
           <div className="-mx-2 flex items-center gap-1 sm:gap-2">
             {items.map((i) => (
-              <Link
-                key={i.name}
-                href="#"
-                className={`rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white ${
-                  i.name === 'Home' ? 'font-bold bg-black/10' : 'hover:bg-black/5'
-                }`}
-              >
-                {i.name} {i.hasDropdown && "▾"}
-              </Link>
+              i.name === "Business" ? (
+                <div key={i.name} className="relative">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = !showBusiness;
+                      closeAllDropdowns();
+                      setShowBusiness(next);
+                    }}
+                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5"
+                  >
+                    <span>{i.name}</span>
+                    <span className="text-[16px]">▾</span>
+                  </button>
+                  {showBusiness && (
+                    <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream oil &amp; gas</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream oil &amp; gas</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Power</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Energy</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Natural Gas</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Money</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</button>
+                    </div>
+                  )}
+                </div>
+              ) : i.name === "Future" ? (
+                <div key={i.name} className="relative">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = !showFuture;
+                      closeAllDropdowns();
+                      setShowFuture(next);
+                    }}
+                    className={`rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5 inline-flex items-center gap-1`}
+                  >
+                    <span>{i.name}</span>
+                    <span className="text-[16px]">▾</span>
+                  </button>
+                  {showFuture && (
+                    <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Science</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Technology</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Education</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Health</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Culture</button>
+                    </div>
+                  )}
+                </div>
+              ) : i.name === "Maritime" ? (
+                <div key={i.name} className="relative">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = !showMaritime;
+                      closeAllDropdowns();
+                      setShowMaritime(next);
+                    }}
+                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5"
+                  >
+                    <span>{i.name}</span>
+                    <span className="text-[16px]">▾</span>
+                  </button>
+                  {showMaritime && (
+                    <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Transport</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Port</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Safety</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Ship Operations</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Sustainability</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Offshores</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Repairs</button>
+                    </div>
+                  )}
+                </div>
+              ) : i.name === "Economy & Market" ? (
+                <div key={i.name} className="relative">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = !showEconomy;
+                      closeAllDropdowns();
+                      setShowEconomy(next);
+                    }}
+                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5"
+                  >
+                    <span>{i.name}</span>
+                    <span className="text-[16px]">▾</span>
+                  </button>
+                  {showEconomy && (
+                    <div className="absolute left-1/2 top-full z-30 mt-2 w-36 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Money</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Aviation</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</button>
+                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={i.name}
+                  href={i.name === "Home" ? "/" : "#"}
+                  className={`rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white ${
+                    i.name === 'Home' ? 'font-bold bg-black/10' : 'hover:bg-black/5'
+                  }`}
+                >
+                  {i.name} {i.hasDropdown && "▾"}
+                </Link>
+              )
             ))}
           </div>
 
@@ -253,13 +535,18 @@ export function NewsTicker() {
   );
 }
 
-export default function NewsHeader() {
+type NewsHeaderProps = {
+  hideBanner?: boolean;
+  hideTicker?: boolean;
+};
+
+export default function NewsHeader({ hideBanner, hideTicker }: NewsHeaderProps) {
   return (
     <header className="w-full">
-      <BrandAndBanner />
+      {hideBanner ? <CompactLogoBar /> : <BrandAndBanner />}
       <TopUtilities /> 
       <PrimaryNav />
-      <NewsTicker />
+      {!hideTicker && <NewsTicker />}
     </header>
   );
 }
