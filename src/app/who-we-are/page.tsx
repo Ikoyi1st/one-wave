@@ -105,7 +105,7 @@ export default function WhoWeArePage() {
 
               <div className="flex flex-col justify-center px-6 py-8 text-white sm:px-8">
                 <h3 className="text-xl font-semibold sm:text-2xl">Elevate Your Career</h3>
-                <p className="mt-3 font-semibold text-xl leading-7 text-white/80 sm:text-sm">
+                <p className="mt-3 font-semibold text-xs leading-7 text-white/80 sm:text-sm">
                   Onewave is a team of smart and ambitious people, committed to providing the best information to
                   the energy and financial markets.
                 </p>

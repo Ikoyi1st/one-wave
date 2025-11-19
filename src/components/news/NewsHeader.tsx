@@ -269,9 +269,6 @@ function PrimaryNav() {
                     )}
                   </div>
                 ) : (
-                  // The original code had an extra, incorrect ternary condition here,
-                  // which was causing the parsing error. It's replaced with the correct
-                  // default Link behavior for non-dropdown items in the second row.
                 <Link
                   key={i.name}
                   href={i.name === "Home" ? "/" : "#"}
