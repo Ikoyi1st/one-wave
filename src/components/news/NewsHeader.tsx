@@ -44,27 +44,7 @@ function TopUtilities() {
           <Link href="/who-we-are">WHO WE ARE</Link>
 
           {/* Events dropdown */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => {
-                setShowEvents((v) => !v);
-                setShowIndustries(false);
-              }}
-              className="inline-flex items-center gap-1 text-inherit focus:outline-none"
-           >
-              <span>EVENTS</span>
-              <span className="text-[16px]">▾</span>
-            </button>
-
-            {showEvents && (
-              <div className="absolute left-1/2 top-full z-30 mt-2 w-32 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
-                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Webinar</button>
-                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Conference</button>
-                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Award</button>
-              </div>
-            )}
-          </div>
+          <Link href="#">EVENTS</Link>
 
           <Link href="/careers">CAREERS</Link>
         </nav>
