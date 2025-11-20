@@ -40,7 +40,7 @@ export default function EventsPage() {
       date: "NOV 24-25, 2025",
       location: "ABUJA CONTINENTAL HOTEL, FCT",
       tags: ["Conference"],
-      href: "/events/police-summit",
+      href: "/events",
     },
     {
       title: "FINANCING NIGERIA ELECTRICITY CONFERENCE",
