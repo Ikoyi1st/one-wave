@@ -8,8 +8,14 @@ import Image from "next/image"; // Import Image component for public assets
 import NewsHeader from "@/components/news/NewsHeader";
 import NewsFooter from "@/components/news/NewsFooter";
 
+
+interface SocialIconProps {
+  src: string;
+  alt: string;
+  href: string;
+}
 // Custom Icon component setup for consistent styling
-const SocialIcon = ({ src, alt, href }) => (
+const SocialIcon = ({ src, alt, href }: SocialIconProps) => (
     <Link href={href} className="flex items-center justify-center p-1 h-10 hover:bg-gray-100 transition-colors ">
         <Image src={src} alt={alt} width={20} height={20} className="w-8 h-8 text-[#2E3D68]"/>
     </Link>
