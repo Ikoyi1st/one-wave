@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 function TopUtilities() {
+  // Switched from controlled click to hover using onMouseEnter/onMouseLeave
   const [showEvents, setShowEvents] = useState(false);
   const [showIndustries, setShowIndustries] = useState(false);
 
@@ -14,14 +15,14 @@ function TopUtilities() {
         style={{ fontFamily: '"Inter", sans-serif' }}
       >
         <nav className="relative flex items-center gap-3 whitespace-nowrap text-zinc-600 overflow-visible">
-          {/* Industries We Serve dropdown */}
-          <div className="relative">
+          {/* Industries We Serve dropdown (Now opens on hover) */}
+          <div
+            className="relative"
+            onMouseEnter={() => setShowIndustries(true)}
+            onMouseLeave={() => setShowIndustries(false)}
+          >
             <button
               type="button"
-              onClick={() => {
-                setShowIndustries((v) => !v);
-                setShowEvents(false);
-              }}
               className="inline-flex items-center gap-1 text-inherit focus:outline-none"
             >
               <span>INDUSTRIES WE SERVE</span>
@@ -29,7 +30,7 @@ function TopUtilities() {
             </button>
 
             {showIndustries && (
-              <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+              <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
                 <button className="block w-full px-3 py-2 hover:bg-zinc-100">Business &amp; Finance</button>
                 <button className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream Oil</button>
                 <button className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</button>
@@ -43,8 +44,8 @@ function TopUtilities() {
 
           <Link href="/who-we-are">WHO WE ARE</Link>
 
-          {/* Events dropdown */}
-          <Link href="#">EVENTS</Link>
+          {/* Events dropdown (Converted to open on hover, using placeholder content) */}
+           <Link href="#">EVENTS</Link>
 
           <Link href="/careers">CAREERS</Link>
         </nav>
@@ -60,12 +61,13 @@ function BrandAndBanner() {
       <div className="mx-auto max-w-7xl px-6 pt-2">
         <Link href="/" className="inline-flex items-center gap-3">
           {/* Adjusted to match the size and spacing in the screenshot context */}
+          {/* NOTE: Image component requires 'src', which will be a placeholder since external paths are restricted */}
           <Image src="/logo.png" alt="Onewave News" width={180} height={32} className="mt-2" />
         </Link>
 
         {/* Banner */}
         {/* Row with left copy and right banner image, matching the screenshot layout */}
-        <div className="mt-2 grid items-center  md:grid-cols-[1fr_1.8fr]">
+        <div className="mt-2 grid items-center md:grid-cols-[1fr_1.8fr]">
           {/* Left: Forces Network copy */}
           <div className="hidden md:block">
             <h2 className="font-display text-3xl lg:text-[42px] font-bold leading-tight md:text-4xl">The Forces Network</h2>
@@ -77,12 +79,13 @@ function BrandAndBanner() {
           </div>
           {/* Right: Banner image */}
           <div className="h-full overflow-hidden bg-white md:h-full lg:h-full">
+            {/* NOTE: Image component requires 'src', using a placeholder */}
             <Image
               src="/container.png"
               alt="Nigeria Police Summit"
               width={1200}
               height={200}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover rounded-lg"
             />
           </div>
         </div>
@@ -95,6 +98,7 @@ function CompactLogoBar() {
   return (
     <div className="mx-auto max-w-7xl px-6 pt-2 pb-2">
       <Link href="/" className="inline-flex items-center gap-3">
+        {/* NOTE: Image component requires 'src', using a placeholder */}
         <Image src="/logo.png" alt="Onewave News" width={180} height={32} className="mt-2" />
       </Link>
     </div>
@@ -119,6 +123,7 @@ function PrimaryNav() {
   const [showMaritime, setShowMaritime] = useState(false);
   const [showEconomy, setShowEconomy] = useState(false);
 
+  // This function is less relevant now as hover manages state, but kept for clarity
   const closeAllDropdowns = () => {
     setShowBusiness(false);
     setShowFuture(false);
@@ -126,29 +131,30 @@ function PrimaryNav() {
     setShowEconomy(false);
   };
 
+  // --- Mobile / small-screen layout ---
   return (
     <div className="border-y border-[--color-border] bg-[#2E3D68] font-semibold text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10">
-        {/* Mobile / small-screen layout: two nav rows + search in same bar */}
         <div className="flex flex-col gap-2 py-2 text-[11px] sm:text-xs md:hidden">
           <div className="flex flex-wrap items-center gap-1">
             {firstRow.map((i) => (
               i.name === "Business" ? (
-                <div key={i.name} className="relative">
+                <div 
+                  key={i.name} 
+                  className="relative"
+                  onMouseEnter={() => setShowBusiness(true)}
+                  onMouseLeave={() => setShowBusiness(false)}
+                >
                   <button
                     type="button"
-                    onClick={() => {
-                      const next = !showBusiness;
-                      closeAllDropdowns();
-                      setShowBusiness(next);
-                    }}
+                    // Removed onClick logic for hover behavior
                     className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
                   >
                     <span>{i.name}</span>
                     <span className="text-[16px]">▾</span>
                   </button>
                   {showBusiness && (
-                    <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                    <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream oil &amp; gas</button>
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream oil &amp; gas</button>
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Power</button>
@@ -160,21 +166,22 @@ function PrimaryNav() {
                   )}
                 </div>
               ) : i.name === "Future" ? (
-                <div key={i.name} className="relative">
+                <div 
+                  key={i.name} 
+                  className="relative"
+                  onMouseEnter={() => setShowFuture(true)}
+                  onMouseLeave={() => setShowFuture(false)}
+                >
                   <button
                     type="button"
-                    onClick={() => {
-                      const next = !showFuture;
-                      closeAllDropdowns();
-                      setShowFuture(next);
-                    }}
+                    // Removed onClick logic for hover behavior
                     className={`rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5 inline-flex items-center gap-1`}
                   >
                     <span>{i.name}</span>
                     <span className="text-[16px]">▾</span>
                   </button>
                   {showFuture && (
-                    <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                    <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Science</button>
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Technology</button>
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Education</button>
@@ -188,7 +195,8 @@ function PrimaryNav() {
                   key={i.name}
                   href={i.name === "Home" ? "/" : "#"}
                   className={`rounded px-2 py-1 text-[11px] sm:text-xs text-white ${
-                    i.name === 'Home' ? 'font-bold bg-black/10' : 'hover:bg-black/5'
+                    // Added underline class for active link (Home)
+                    i.name === 'Home' ? 'font-bold bg-black/10 underline' : 'hover:bg-black/5'
                   }`}
                 >
                   {i.name} {i.hasDropdown && "▾"}
@@ -200,21 +208,22 @@ function PrimaryNav() {
             <div className="flex flex-wrap items-center gap-1">
               {secondRow.map((i) => (
                 i.name === "Maritime" ? (
-                  <div key={i.name} className="relative">
+                  <div 
+                    key={i.name} 
+                    className="relative"
+                    onMouseEnter={() => setShowMaritime(true)}
+                    onMouseLeave={() => setShowMaritime(false)}
+                  >
                     <button
                       type="button"
-                      onClick={() => {
-                        const next = !showMaritime;
-                        closeAllDropdowns();
-                        setShowMaritime(next);
-                      }}
+                      // Removed onClick logic for hover behavior
                       className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
                     >
                       <span>{i.name}</span>
                       <span className="text-[16px]">▾</span>
                     </button>
                     {showMaritime && (
-                      <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                      <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
                         <button className="block w-full px-3 py-2 hover:bg-zinc-100">Transport</button>
                         <button className="block w-full px-3 py-2 hover:bg-zinc-100">Port</button>
                         <button className="block w-full px-3 py-2 hover:bg-zinc-100">Safety</button>
@@ -226,21 +235,22 @@ function PrimaryNav() {
                     )}
                   </div>
                 ) : i.name === "Economy & Market" ? (
-                  <div key={i.name} className="relative">
+                  <div 
+                    key={i.name} 
+                    className="relative"
+                    onMouseEnter={() => setShowEconomy(true)}
+                    onMouseLeave={() => setShowEconomy(false)}
+                  >
                     <button
                       type="button"
-                      onClick={() => {
-                        const next = !showEconomy;
-                        closeAllDropdowns();
-                        setShowEconomy(next);
-                      }}
+                      // Removed onClick logic for hover behavior
                       className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
                     >
                       <span>{i.name}</span>
                       <span className="text-[16px]">▾</span>
                     </button>
                     {showEconomy && (
-                      <div className="absolute left-1/2 top-full z-30 mt-2 w-36 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                      <div className="absolute left-1/2 top-full z-30 mt-2 w-36 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
                         <button className="block w-full px-3 py-2 hover:bg-zinc-100">Money</button>
                         <button className="block w-full px-3 py-2 hover:bg-zinc-100">Aviation</button>
                         <button className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</button>
@@ -249,11 +259,11 @@ function PrimaryNav() {
                     )}
                   </div>
                 ) : (
-                <Link
-                  key={i.name}
-                  href={i.name === "Home" ? "/" : "#"}
-                  className="rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
-                >
+                  <Link
+                    key={i.name}
+                    href={i.name === "Home" ? "/" : "#"}
+                    className="rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
+                  >
                     {i.name} {i.hasDropdown && "▾"}
                   </Link>
                 )
@@ -265,7 +275,7 @@ function PrimaryNav() {
                   aria-label="Search"
                   placeholder="Search..."
                   autoFocus
-                  className="h-8 w-32 rounded-full border border-white/50 bg-white px-2 text-[10px] text-black outline-none placeholder:text-[#2E3D68] sm:w-40"
+                  className="h-8 w-26 rounded-full border border-white/50 bg-white px-2 text-[10px] text-black outline-none placeholder:text-[#2E3D68] sm:w-30"
                 />
               )}
               <button
@@ -289,26 +299,27 @@ function PrimaryNav() {
           </div>
         </div>
 
-        {/* Desktop layout: single row nav + search on the right */}
+        {/* --- Desktop layout --- */}
         <nav className="hidden items-center justify-between py-2 text-[11px] sm:text-xs md:flex md:text-[13px]">
           <div className="-mx-2 flex items-center gap-1 sm:gap-2">
             {items.map((i) => (
               i.name === "Business" ? (
-                <div key={i.name} className="relative">
+                <div 
+                  key={i.name} 
+                  className="relative"
+                  onMouseEnter={() => setShowBusiness(true)}
+                  onMouseLeave={() => setShowBusiness(false)}
+                >
                   <button
                     type="button"
-                    onClick={() => {
-                      const next = !showBusiness;
-                      closeAllDropdowns();
-                      setShowBusiness(next);
-                    }}
+                    // Removed onClick logic for hover behavior
                     className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5"
                   >
                     <span>{i.name}</span>
                     <span className="text-[16px]">▾</span>
                   </button>
                   {showBusiness && (
-                    <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                    <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream oil &amp; gas</button>
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream oil &amp; gas</button>
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Power</button>
@@ -320,21 +331,22 @@ function PrimaryNav() {
                   )}
                 </div>
               ) : i.name === "Future" ? (
-                <div key={i.name} className="relative">
+                <div 
+                  key={i.name} 
+                  className="relative"
+                  onMouseEnter={() => setShowFuture(true)}
+                  onMouseLeave={() => setShowFuture(false)}
+                >
                   <button
                     type="button"
-                    onClick={() => {
-                      const next = !showFuture;
-                      closeAllDropdowns();
-                      setShowFuture(next);
-                    }}
+                    // Removed onClick logic for hover behavior
                     className={`rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5 inline-flex items-center gap-1`}
                   >
                     <span>{i.name}</span>
                     <span className="text-[16px]">▾</span>
                   </button>
                   {showFuture && (
-                    <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                    <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Science</button>
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Technology</button>
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Education</button>
@@ -344,21 +356,22 @@ function PrimaryNav() {
                   )}
                 </div>
               ) : i.name === "Maritime" ? (
-                <div key={i.name} className="relative">
+                <div 
+                  key={i.name} 
+                  className="relative"
+                  onMouseEnter={() => setShowMaritime(true)}
+                  onMouseLeave={() => setShowMaritime(false)}
+                >
                   <button
                     type="button"
-                    onClick={() => {
-                      const next = !showMaritime;
-                      closeAllDropdowns();
-                      setShowMaritime(next);
-                    }}
+                    // Removed onClick logic for hover behavior
                     className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5"
                   >
                     <span>{i.name}</span>
                     <span className="text-[16px]">▾</span>
                   </button>
                   {showMaritime && (
-                    <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                    <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Transport</button>
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Port</button>
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Safety</button>
@@ -370,21 +383,22 @@ function PrimaryNav() {
                   )}
                 </div>
               ) : i.name === "Economy & Market" ? (
-                <div key={i.name} className="relative">
+                <div 
+                  key={i.name} 
+                  className="relative"
+                  onMouseEnter={() => setShowEconomy(true)}
+                  onMouseLeave={() => setShowEconomy(false)}
+                >
                   <button
                     type="button"
-                    onClick={() => {
-                      const next = !showEconomy;
-                      closeAllDropdowns();
-                      setShowEconomy(next);
-                    }}
+                    // Removed onClick logic for hover behavior
                     className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5"
                   >
                     <span>{i.name}</span>
                     <span className="text-[16px]">▾</span>
                   </button>
                   {showEconomy && (
-                    <div className="absolute left-1/2 top-full z-30 mt-2 w-36 -translate-x-1/2 bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
+                    <div className="absolute left-1/2 top-full z-30 mt-2 w-36 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Money</button>
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Aviation</button>
                       <button className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</button>
@@ -397,7 +411,8 @@ function PrimaryNav() {
                   key={i.name}
                   href={i.name === "Home" ? "/" : "#"}
                   className={`rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white ${
-                    i.name === 'Home' ? 'font-bold bg-black/10' : 'hover:bg-black/5'
+                    // Added underline class for active link (Home)
+                    i.name === 'Home' ? 'font-bold bg-black/10 underline' : 'hover:bg-black/5'
                   }`}
                 >
                   {i.name} {i.hasDropdown && "▾"}
@@ -489,20 +504,22 @@ export function NewsTicker() {
         {/* Arrow controls remain on the right on larger screens */}
         <div className="ml-2 hidden shrink-0 items-center text-white/50 sm:flex">
           <button className="h-full text-white">
+            {/* NOTE: Image component requires 'src', using a placeholder */}
             <Image
               src="/left-arrow.png"
               alt="Previous headline"
-              width={20}
-              height={20}
+              width={24}
+              height={24}
               className="mt-1 flex-shrink-0 hover:bg-white/10 sm:h-[24px] sm:w-[24px] md:h-[28px] md:w-[28px]"
             />
           </button>
           <button className="h-full px-2 text-white">
+            {/* NOTE: Image component requires 'src', using a placeholder */}
             <Image
               src="/right-arrow.png"
               alt="Next headline"
-              width={20}
-              height={20}
+              width={24}
+              height={24}
               className="mt-1 flex-shrink-0 hover:bg-white/10 sm:h-[24px] sm:w-[24px] md:h-[28px] md:w-[28px]"
             />
           </button>
