@@ -53,3 +53,9 @@ h1, h2, h3, h4, h5, h6, .font-display {
   background-size: cover;
   background-position: center;
 }
+
+.event-background {
+  background-image: url('/event-bg.png');
+  background-size: cover;
+  background-position: center;
+}

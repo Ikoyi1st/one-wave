@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     template: "%s – OneWave",
   },
   description:
-    "OneWave brings designers and developers into a single, fast, collaborative flow.",
+    "OneWave brings news update to the nation fast and reliable.",
   metadataBase: new URL("https://onewave.local"),
 };
 

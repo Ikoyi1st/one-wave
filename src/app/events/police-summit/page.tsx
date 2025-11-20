@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import NewsHeader from "@/components/news/NewsHeader";
+import NewsFooter from "@/components/news/NewsFooter";
 import React from "react"; // Explicit import for React is good practice
 
 // --- Helper Components (UPDATED: ThemePill uses the new star image) ---
@@ -415,42 +417,7 @@ function AgendaItem({ day, date }: { day: string; date: string }) {
 
 // --- Navigation Tabs Component ---
 
-const TabNavigation = () => {
-  const tabs = [
-    { name: "Home", href: "#home" },
-    { name: "Sponsors", href: "#sponsors" },
-    { name: "Register", href: "#register" },
-    { name: "Speakers", href: "#speakers" },
-    { name: "Agenda", href: "/police-summit/agenda" },
-    { name: "Award", href: "#award" },
-  ];
 
-  
-
-  return (
-    <nav className="sticky top-0 z-10 bg-[#F5F5F5] shadow-md border-b border-zinc-200 py-3 sm:py-4">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        {/* Added flex-nowrap to the container, and px-1 to Link for better spacing */}
-        <div className="flex items-center justify-start gap-3 sm:gap-4 overflow-x-auto scrollbar-hide flex-nowrap"> 
-          {tabs.map((tab, index) => (
-            <React.Fragment key={tab.name}>
-              <Link
-                href={tab.href}
-                className="px-2 sm:px-3 py-2 sm:py-3 text-sm sm:text-base lg:text-lg font-medium text-zinc-800 hover:text-[#B33B7C] transition-colors whitespace-nowrap"
-              >
-                {tab.name}
-              </Link>
-              {/* Vertical separator (using a div for the pipe |) */}
-              {index < tabs.length - 1 && (
-                <div className="h-4 sm:h-5 w-px bg-[#8FACFF] flex-shrink-0"></div>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-    </nav>
-  );
-};
 
 const Footer = () => {
   const menuItems = [
@@ -560,9 +527,10 @@ const Footer = () => {
 export default function PoliceSummitPage() {
   return (
     <div className="">
+      <NewsHeader hideBanner hideTicker />
       
       {/* REVISED HERO SECTION */}
-      <section className="relative min-h-[600px] sm:min-h-[500px] md:h-[550px] lg:h-[600px] xl:h-[650px] w-full overflow-hidden">
+      <section className="relative min-h-[600px] mt-6 sm:min-h-[500px] md:h-[550px] lg:h-[600px] xl:h-[650px] w-full overflow-hidden">
         
         {/* Background Image with blur on mobile */}
         <div 
@@ -633,8 +601,6 @@ export default function PoliceSummitPage() {
         
       </section>
 
-      {/* NEW: Navigation Tabs Component based on Group 11.png */}
-      <TabNavigation />
 
       {/*Intro Section with Gradient Background */}
      <section 

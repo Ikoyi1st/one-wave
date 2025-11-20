@@ -45,7 +45,7 @@ function TopUtilities() {
           <Link href="/who-we-are">WHO WE ARE</Link>
 
           {/* Events dropdown (Converted to open on hover, using placeholder content) */}
-           <Link href="#">EVENTS</Link>
+           <Link href="/events">EVENTS</Link>
 
           <Link href="/careers">CAREERS</Link>
         </nav>
