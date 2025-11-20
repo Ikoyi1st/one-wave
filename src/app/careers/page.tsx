@@ -143,7 +143,7 @@ export default function CareersPage() {
             {/* Job Accordion List - Uses Link for Navigation */}
          <div className="mt-4 space-y-1 max-w-lg">
             {/* Head of Conference Job Listing */}
-            <Link href="/jobs/head-of-conference-ph-abj" className="block">
+            <Link href="/careers/head-of-conference" className="block">
                     <AccordionItem 
                         title="Head of Conference" 
                         location="Port Harcourt, Abuja (Hybrid)"
@@ -153,12 +153,12 @@ export default function CareersPage() {
             </Link>
             
             {/* Head Of Business Development Job Listing */}
-            <Link href="/jobs/head-of-business-development-ph" className="block">
+            <Link href="/careers/head-of-business-development" className="block">
                     <AccordionItem title="Head Of Business Development" location="Port Harcourt, (Hybrid)" />
             </Link>
 
             {/* Graphic Operations Job Listing */}
-            <Link href="/jobs/graphic-operations-ph" className="block">
+            <Link href="/careers/graphic-operations" className="block">
                     <AccordionItem title="Graphic Operations" location="Port Harcourt, (Onsite)" />
             </Link>
           </div>
@@ -188,7 +188,7 @@ export default function CareersPage() {
                 <AccordionItem title="Grow with Onewave" isJobListing={false}>
                     <p className="pb-4 pt-2">Details about growth opportunities at Onewave...</p>
                 </AccordionItem>
-                <AccordionItem title="Put people first, and everything falls into place" isJobListing={false} defaultOpen={true}>
+                <AccordionItem title="Put people first, and everything falls into place" isJobListing={false}>
                     <p className="pb-4 pt-2">
                         We invest in our success as a company by investing in our people. At Onewave, we’re committed to creating a workplace that works for you. But don’t take our word for it. Hear from our team members talk about what makes the difference for them.
                     </p>
@@ -225,7 +225,7 @@ export default function CareersPage() {
     </div>
 
     {/* The Image is now positioned absolutely, overlapping the gradient */}
-    <div className="absolute top-0 ml-20 pt-110 md:top-1/2 left-4 md:left-0 md:-translate-y-1/2 max-w-xl md:w-1/2 h-64 md:h-[400px] lg:h-[400px] z-10 rounded-lg overflow-hidden shadow-lg"> 
+    <div className="absolute top-0 ml-20 pt-110 md:top-1/2 left-4 md:left-0 md:-translate-y-1/2 max-w-xl md:w-1/3 h-64 md:h-[350px] lg:h-[400px] z-10 rounded-lg overflow-hidden shadow-lg"> 
         <Image
             src="/call.png"
             alt="Team collaboration session"

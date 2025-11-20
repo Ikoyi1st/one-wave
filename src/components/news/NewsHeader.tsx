@@ -211,17 +211,17 @@ function PrimaryNav() {
                       className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
                     >
                       <span>{i.name}</span>
-                      <span className="text-[8px]">▾</span>
+                      <span className="text-[16px]">▾</span>
                     </button>
                     {showMaritime && (
                       <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-md">
-                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Transport</button>
-                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Port</button>
-                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Safety</button>
-                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Ship Operations</button>
-                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Sustainability</button>
-                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Offshores</button>
-                        <button className="block w-full px-3 py-1 hover:bg-zinc-100">Repairs</button>
+                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Transport</button>
+                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Port</button>
+                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Safety</button>
+                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Ship Operations</button>
+                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Sustainability</button>
+                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Offshores</button>
+                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Repairs</button>
                       </div>
                     )}
                   </div>
