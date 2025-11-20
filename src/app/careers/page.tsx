@@ -6,10 +6,21 @@ import { useState } from "react";
 import NewsHeader from "@/components/news/NewsHeader";
 import NewsFooter from "@/components/news/NewsFooter";
 
+// --- Type Definition for Props (The Fix!) ---
+
+interface AccordionItemProps {
+    title: string;
+    location?: string; // Optional prop
+    children?: React.ReactNode; // Content inside the accordion
+    defaultOpen?: boolean; // Optional prop with a default value
+    isJobListing?: boolean; // Optional prop with a default value
+}
+
 // --- Helper Components ---
 
 // A helper component to manage the accordion items (Job Listings and Sections)
-const AccordionItem = ({ title, location, children, defaultOpen = false, isJobListing = true }) => {
+// The props are now typed using AccordionItemProps
+const AccordionItem = ({ title, location, children, defaultOpen = false, isJobListing = true }: AccordionItemProps) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   // Arrow for the main accordion expansion/collapse on the right
   const rightArrowClass = isJobListing ? 'h-5 w-5 transform transition-transform' : 'h-6 w-6 transform transition-transform';
@@ -20,8 +31,6 @@ const AccordionItem = ({ title, location, children, defaultOpen = false, isJobLi
     <div className={`border-b border-gray-200 ${isJobListing ? 'py-2' : 'py-4'}`}>
       <button
         // Prevent the button from being focusable/clickable if it's wrapped in a Next.js Link
-        // For job listings, we rely on the Link wrapper for navigation.
-        // For non-job listings (isJobListing=false), we use the button for the accordion toggle.
         className="flex w-full items-center justify-between text-left hover:text-gray-700"
         onClick={() => !isJobListing && setIsOpen(!isOpen)} // Only allow click for accordion toggle if it's not a job listing link
       >
@@ -65,16 +74,10 @@ const AccordionItem = ({ title, location, children, defaultOpen = false, isJobLi
           )}
         </svg>
       </button>
-      {/* Accordion Content (Only for non-Job Listings) */}
-      {isOpen && !isJobListing && (
-        <div className={` text-sm text-gray-600 pl-4`}> 
+      {/* Accordion Content */}
+      {isOpen && (
+        <div className={` text-sm text-gray-600 ${isJobListing ? 'pl-8' : 'pl-4'}`}> 
           {children}
-        </div>
-      )}
-      {/* Accordion Content for Job Listings (If you choose to keep it) */}
-      {isOpen && isJobListing && (
-        <div className={` text-sm text-gray-600 pl-8`}>
-            {children}
         </div>
       )}
     </div>
@@ -163,13 +166,24 @@ export default function CareersPage() {
         </section>
 
         {/* Home to Pioneers and Innovation Section (Accordion) */}
+       {/* Home to Pioneers and Innovation Section (Accordion) */}
         <section className="bg-white pt-6 pb-12">
-          <div className="mx-auto max-w-full px-4 sm:px-6 gap-36 flex">
-            <h2 className="text-xl font-bold tracking-tight text-[#111827] sm:text-2xl">
-              Home to Pioneers and Innovation
-            </h2>
+          {/* FIX: Replaced 'flex' and 'gap-36' with a responsive grid.
+            - md:grid-cols-2: Two columns on medium screens and up.
+            - gap-8: Provides a more manageable default gap.
+          */}
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            {/* Left Column: Title */}
+            <div>
+              <h2 className="text-xl font-bold tracking-tight text-[#111827] sm:text-2xl">
+                Home to Pioneers and Innovation
+              </h2>
+            </div>
 
-            <div className="max-w-3xl mt-4 space-y-4">
+            {/* Right Column: Accordion Content */}
+            {/* Removed max-w-3xl to allow it to fill the column space */}
+            <div className="mt-4 space-y-4 md:mt-0"> 
                 {/* These items are NOT job listings, so isJobListing={false} and they use standard accordion behavior */}
                 <AccordionItem title="Grow with Onewave" isJobListing={false}>
                     <p className="pb-4 pt-2">Details about growth opportunities at Onewave...</p>
@@ -197,7 +211,7 @@ export default function CareersPage() {
       <div className="hidden md:block md:col-span-1"></div> 
 
       {/* Right Column: Text and CTA - now directly on the gradient */}
-      <div className="flex flex-col md:p-12 text-white md:col-span-1">
+      <div className="flex flex-col justify-center p-8 md:p-12 text-white md:col-span-1">
         <h2 className="text-2xl font-bold sm:text-3xl lg:text-4xl">
           Want to Work With<br/> Us? Let's Talk
         </h2>
@@ -211,7 +225,6 @@ export default function CareersPage() {
     </div>
 
     {/* The Image is now positioned absolutely, overlapping the gradient */}
-    {/* Adjust 'top', 'left', 'transform' for precise positioning */}
     <div className="absolute top-0 ml-20 pt-110 md:top-1/2 left-4 md:left-0 md:-translate-y-1/2 max-w-xl md:w-1/2 h-64 md:h-[400px] lg:h-[400px] z-10 rounded-lg overflow-hidden shadow-lg"> 
         <Image
             src="/call.png"
