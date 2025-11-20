@@ -3,7 +3,7 @@ import NewsFooter from "@/components/news/NewsFooter";
 import Image from "next/image";
 import Link from "next/link";
 
-const ChevronLeft = (props) => (
+const ChevronLeft = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -18,7 +18,7 @@ const ChevronLeft = (props) => (
   </svg>
 );
 
-const ChevronRight = (props) => (
+const ChevronRight = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -180,12 +180,12 @@ export default function EventsPage() {
             <div className="space-y-6 bg-[#F6F6F6] p-6 rounded">
               <h3 className="font-bold text-sm text-[#111] mb-3">Filters</h3>
 
-              <div className="border-b pb-3 flex justify-between text-sm font-semibold">
+              <div className="border-b border-[#9A9A9A47] pb-3 flex justify-between text-sm font-semibold">
                 <span>Theme</span>
                 <span>+</span>
               </div>
 
-              <div className="border-b pb-3 flex justify-between text-sm font-semibold">
+              <div className="border-b border-[#9A9A9A47] pb-3 flex justify-between text-sm font-semibold">
                 <span>Location</span>
                 <span>+</span>
               </div>
@@ -241,7 +241,7 @@ export default function EventsPage() {
                   href={event.href}
                   className="block group cursor-pointer"
                 >
-                  <div className="transition-all group-hover:opacity-80">
+                  <div className="border-b border-[#B5B5B5] transition-all group-hover:opacity-80">
                     <p className="text-[12px] font-bold text-[#C2007B] mb-2">
                       IN PERSON
                     </p>
@@ -254,7 +254,7 @@ export default function EventsPage() {
                       {event.date} • {event.location}
                     </p>
 
-                    <div className="flex flex-wrap gap-2 mt-2">
+                    <div className="flex flex-wrap gap-2 mt-2 mb-4">
                       {event.tags.map((tag, i) => (
                         <span
                           key={i}
@@ -270,14 +270,16 @@ export default function EventsPage() {
             </div>
 
             {/* PAGINATION */}
-            <div className="flex justify-center items-center gap-3 mt-12">
+            <div className="flex items-center gap-3 mt-12">
               <button className="px-1 py-1 text-gray-500" disabled>
                 <ChevronLeft className="h-5 w-5" />
               </button>
 
-              <button className="px-3 py-1 text-sm bg-[#2E3D68] text-white rounded-full">1</button>
-              <button className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-200 rounded-full">2</button>
-              <button className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-200 rounded-full">3</button>
+              <button className="px-3 py-1 text-sm bg-[#2E3D68] text-white">1</button>
+              <button className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-200">2</button>
+              <button className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-200">3</button>
+              <button className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-200">4</button>
+              <button className="px-3 py-1 text-sm text-gray-700 hover:bg-gray-200">5</button>
 
               <button className="px-1 py-1 text-gray-500 hover:text-[#2E3D68]">
                 <ChevronRight className="h-5 w-5" />
