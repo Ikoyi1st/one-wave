@@ -128,7 +128,7 @@ function PrimaryNav() {
   // --- START: ADDED ACTIVE PATH LOGIC ---
   const pathname = usePathname();
 
-  const isActive = (href) => {
+  const isActive = (href: string) => {
     // If the link is home "/", check for exact match or if pathname is empty (root)
     if (href === '/') {
       return pathname === href;
