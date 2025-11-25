@@ -33,13 +33,13 @@ function TopUtilities() {
             {showIndustries && (
               <div className="absolute left-1/2 top-full z-30 mt-1 py-2 w-44 -translate-x-1/2 rounded-md bg-white text-center text-[12px] text-[#111827] shadow-lg">
                 {/* ADDED Link COMPONENTS WITH PLACEHOLDER HREFs */}
-                <Link href="/industries/business-finance" className="block w-full px-3 py-2 hover:bg-zinc-100">Business &amp; Finance</Link>
-                <Link href="/industries/downstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream Oil</Link>
-                <Link href="/industries/economy" className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</Link>
+                <Link href="/industries/business/finance" className="block w-full px-3 py-2 hover:bg-zinc-100">Business &amp; Finance</Link>
+                <Link href="/industries/business/downstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream Oil</Link>
+                <Link href="/industries/business/economy" className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</Link>
                 <Link href="/industries/electricity" className="block w-full px-3 py-2 hover:bg-zinc-100">Electricity</Link>
                 <Link href="/industries/maritime-ports" className="block w-full px-3 py-2 hover:bg-zinc-100">Maritime &amp; Ports</Link>
                 <Link href="/industries/offshore-vessels" className="block w-full px-3 py-2 hover:bg-zinc-100">Offshore Vessels</Link>
-                <Link href="/industries/upstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream Oil</Link>
+                <Link href="/industries/business/upstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream Oil</Link>
               </div>
             )}
           </div>
@@ -111,10 +111,10 @@ function PrimaryNav() {
   const items = [
     { name: "Home", href: "/", hasDropdown: false }, // Added href
     { name: "News and Insights", href: "/news-and-insights", hasDropdown: false }, // Added href
-    { name: "Business", href: "/business", hasDropdown: true }, // Added href
-    { name: "Future", href: "/future", hasDropdown: true }, // Added href
-    { name: "Maritime", href: "/maritime", hasDropdown: true }, // Added href
-    { name: "Economy & Market", href: "/economy-market", hasDropdown: true }, // Added href
+    { name: "Business", href: "#", hasDropdown: true }, // Added href
+    { name: "Future", href: "#", hasDropdown: true }, // Added href
+    { name: "Maritime", href: "#", hasDropdown: true }, // Added href
+    { name: "Economy & Market", href: "#", hasDropdown: true }, // Added href
   ];
   const firstRow = items.slice(0, 4);
   const secondRow = items.slice(4);
@@ -151,7 +151,7 @@ function PrimaryNav() {
   return (
     <div className="border-y border-[--color-border] bg-[#2E3D68] font-semibold text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10">
-        <div className="flex flex-col gap-2 py-2 text-[11px] sm:text-xs md:hidden">
+        <div className="flex flex-col gap-2 py-2 text-[10px] sm:text-xs md:hidden">
           <div className="flex flex-wrap items-center gap-1">
             {firstRow.map((i) => (
               i.hasDropdown ? (
@@ -220,7 +220,7 @@ function PrimaryNav() {
               )
             ))}
           </div>
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-1">
             <div className="flex flex-wrap items-center gap-1">
               {secondRow.map((i) => (
                 i.hasDropdown ? (
@@ -282,7 +282,7 @@ function PrimaryNav() {
                 )
               ))}
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               {showSearch && (
                 <input
                   aria-label="Search"
