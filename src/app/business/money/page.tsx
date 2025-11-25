@@ -4,38 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
-// Types
-interface Article {
-  title: string;
-  category: string;
-  imageSrc: string;
-  href: string;
-}
-
-interface SidebarArticleData extends Article {
-  date: string;
-  readTime: string;
-}
-
-type ArticleCardSize = 'small' | 'medium' | 'large';
-
-interface ArticleCardProps {
-  article: Article;
-  isFeatured?: boolean;
-  size?: ArticleCardSize;
-}
-
-interface SidebarImageArticleProps {
-  article: SidebarArticleData;
-}
-
-interface SidebarArticleProps {
-  article: SidebarArticleData;
-  isFirst?: boolean;
-}
-
 // Placeholder data updated to match the image content
-const featuredArticles: Article[] = [
+const featuredArticles = [
   {
     title: "Olisa Agbakoba Proposes Reforms to Unlock a ₦1.5 Quadrillion Economy in Nigeria",
     category: "Downstream Oil",
@@ -68,7 +38,7 @@ const featuredArticles: Article[] = [
   },
 ];
 
-const mainArticles: Article[] = [
+const mainArticles = [
   {
     title: "Uzoka-Anite: Global Partners Applaud Nigeria’s Economic Reforms at IMF/World Bank Meetings",
     category: "Upstream Oil",
@@ -143,7 +113,7 @@ const mainArticles: Article[] = [
   },
 ];
 
-const sidebarArticles: SidebarArticleData[] = [
+const sidebarArticles = [
   {
     title: "FG Mourns Victims of Niger Boat Mishap",
     category: "NEWS",
@@ -179,7 +149,7 @@ const sidebarArticles: SidebarArticleData[] = [
 ];
 
 // Reusable Article Card Component (Unchanged)
-const ArticleCard = ({ article, isFeatured = false, size = 'medium' }: ArticleCardProps) => {
+const ArticleCard = ({ article, isFeatured = false, size = 'medium' }) => {
   const { title, category, imageSrc, href } = article;
 
   // Determine font size based on article type
@@ -241,7 +211,7 @@ const ArticleCard = ({ article, isFeatured = false, size = 'medium' }: ArticleCa
 };
 
 // --- NEW Sidebar Component for the Image Design ---
-const SidebarImageArticle = ({ article }: SidebarImageArticleProps) => {
+const SidebarImageArticle = ({ article }) => {
   const { title, href, imageSrc, date, readTime } = article;
 
   return (
@@ -277,7 +247,7 @@ const SidebarImageArticle = ({ article }: SidebarImageArticleProps) => {
 
 
 // Sidebar Article Component (Original, but no longer used in the main render)
-const SidebarArticle = ({ article, isFirst = false }: SidebarArticleProps) => {
+const SidebarArticle = ({ article, isFirst = false }) => {
   const { title, category, href } = article;
 
   return (
