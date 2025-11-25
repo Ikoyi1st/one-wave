@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "OneWave – Build together, in one flow",
+    default: "OneWave",
     template: "%s – OneWave",
   },
   description:

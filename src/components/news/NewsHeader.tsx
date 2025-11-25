@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { usePathname } from "next/navigation"; // <-- ADDED THIS IMPORT
 
 function TopUtilities() {
   // Switched from controlled click to hover using onMouseEnter/onMouseLeave
@@ -14,7 +15,7 @@ function TopUtilities() {
         className="mx-auto flex max-w-7xl items-center justify-end gap-3 px-4 py-1 sm:px-6 sm:py-2"
         style={{ fontFamily: '"Inter", sans-serif' }}
       >
-        <nav className="relative flex items-center gap-3 whitespace-nowrap text-zinc-600 overflow-visible">
+        <nav className="relative flex items-center gap-3 whitespace-nowrap text-[#2E3D68] overflow-visible">
           {/* Industries We Serve dropdown (Now opens on hover) */}
           <div
             className="relative"
@@ -30,22 +31,23 @@ function TopUtilities() {
             </button>
 
             {showIndustries && (
-              <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Business &amp; Finance</button>
-                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream Oil</button>
-                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</button>
-                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Electricity</button>
-                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Maritime &amp; Ports</button>
-                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Offshore Vessels</button>
-                <button className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream Oil</button>
-              </div>
+              <div className="absolute left-1/2 top-full z-30 mt-1 py-2 w-44 -translate-x-1/2 rounded-md bg-white text-center text-[12px] text-[#111827] shadow-lg">
+                {/* ADDED Link COMPONENTS WITH PLACEHOLDER HREFs */}
+                <Link href="/industries/business-finance" className="block w-full px-3 py-2 hover:bg-zinc-100">Business &amp; Finance</Link>
+                <Link href="/industries/downstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream Oil</Link>
+                <Link href="/industries/economy" className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</Link>
+                <Link href="/industries/electricity" className="block w-full px-3 py-2 hover:bg-zinc-100">Electricity</Link>
+                <Link href="/industries/maritime-ports" className="block w-full px-3 py-2 hover:bg-zinc-100">Maritime &amp; Ports</Link>
+                <Link href="/industries/offshore-vessels" className="block w-full px-3 py-2 hover:bg-zinc-100">Offshore Vessels</Link>
+                <Link href="/industries/upstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream Oil</Link>
+              </div>
             )}
           </div>
 
           <Link href="/who-we-are">WHO WE ARE</Link>
 
           {/* Events dropdown (Converted to open on hover, using placeholder content) */}
-           <Link href="/events">EVENTS</Link>
+            <Link href="/events">EVENTS</Link>
 
           <Link href="/careers">CAREERS</Link>
         </nav>
@@ -107,12 +109,12 @@ function CompactLogoBar() {
 
 function PrimaryNav() {
   const items = [
-    { name: "Home", hasDropdown: false },
-    { name: "News and Insights", hasDropdown: false },
-    { name: "Business", hasDropdown: true },
-    { name: "Future", hasDropdown: true },
-    { name: "Maritime", hasDropdown: true },
-    { name: "Economy & Market", hasDropdown: true },
+    { name: "Home", href: "/", hasDropdown: false }, // Added href
+    { name: "News and Insights", href: "/news-and-insights", hasDropdown: false }, // Added href
+    { name: "Business", href: "/business", hasDropdown: true }, // Added href
+    { name: "Future", href: "/future", hasDropdown: true }, // Added href
+    { name: "Maritime", href: "/maritime", hasDropdown: true }, // Added href
+    { name: "Economy & Market", href: "/economy-market", hasDropdown: true }, // Added href
   ];
   const firstRow = items.slice(0, 4);
   const secondRow = items.slice(4);
@@ -122,6 +124,20 @@ function PrimaryNav() {
   const [showBusiness, setShowBusiness] = useState(false);
   const [showMaritime, setShowMaritime] = useState(false);
   const [showEconomy, setShowEconomy] = useState(false);
+  
+  // --- START: ADDED ACTIVE PATH LOGIC ---
+  const pathname = usePathname();
+
+  const isActive = (href) => {
+    // If the link is home "/", check for exact match or if pathname is empty (root)
+    if (href === '/') {
+      return pathname === href;
+    }
+    // For other links, check if the current path starts with the link's href
+    // This handles nested routes like /business/finance
+    return pathname.startsWith(href);
+  };
+  // --- END: ADDED ACTIVE PATH LOGIC ---
 
   // This function is less relevant now as hover manages state, but kept for clarity
   const closeAllDropdowns = () => {
@@ -138,65 +154,65 @@ function PrimaryNav() {
         <div className="flex flex-col gap-2 py-2 text-[11px] sm:text-xs md:hidden">
           <div className="flex flex-wrap items-center gap-1">
             {firstRow.map((i) => (
-              i.name === "Business" ? (
+              i.hasDropdown ? (
+                // Use a wrapper div for hover state
                 <div 
                   key={i.name} 
                   className="relative"
-                  onMouseEnter={() => setShowBusiness(true)}
-                  onMouseLeave={() => setShowBusiness(false)}
+                  onMouseEnter={() => {
+                    if (i.name === "Business") setShowBusiness(true);
+                    if (i.name === "Future") setShowFuture(true);
+                  }}
+                  onMouseLeave={() => {
+                    if (i.name === "Business") setShowBusiness(false);
+                    if (i.name === "Future") setShowFuture(false);
+                  }}
                 >
-                  <button
-                    type="button"
-                    // Removed onClick logic for hover behavior
-                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
+                  <Link
+                    href={i.href} // Primary link navigates here on click
+                    className={`inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5 ${
+                        isActive(i.href) ? 'font-bold bg-black/10 underline' : '' // <-- APPLIED ACTIVE STYLES
+                    }`}
+                    // Add onClick to handle cases where button may be desired, though Link is primary here
+                    onClick={(e) => {
+                      // Optionally prevent default if you want the dropdown to *also* open on click on mobile
+                      // e.preventDefault(); 
+                    }}
                   >
                     <span>{i.name}</span>
                     <span className="text-[16px]">▾</span>
-                  </button>
-                  {showBusiness && (
-                    <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream oil &amp; gas</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream oil &amp; gas</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Power</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Energy</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Natural Gas</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Money</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</button>
-                    </div>
+                  </Link>
+
+                  {/* Dropdown Content */}
+                  {(i.name === "Business" && showBusiness) && (
+                    <div className="absolute left-1/2 top-full z-30 mt-1 w-44 -translate-x-1/2 rounded-md bg-white text-center text-[12px] text-[#111827] shadow-lg">
+                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /business/... */}
+                      <Link href="/business/upstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream oil &amp; gas</Link>
+                      <Link href="/business/downstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream oil &amp; gas</Link>
+                      <Link href="/business/energy" className="block w-full px-3 py-2 hover:bg-zinc-100">Power</Link>
+                      <Link href="/business/energy" className="block w-full px-3 py-2 hover:bg-zinc-100">Energy</Link>
+                      <Link href="/business/natural-gas" className="block w-full px-3 py-2 hover:bg-zinc-100">Natural Gas</Link>
+                      <Link href="/business/money" className="block w-full px-3 py-2 hover:bg-zinc-100">Money</Link>
+                      <Link href="/business/finance" className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</Link>
+                    </div>
                   )}
-                </div>
-              ) : i.name === "Future" ? (
-                <div 
-                  key={i.name} 
-                  className="relative"
-                  onMouseEnter={() => setShowFuture(true)}
-                  onMouseLeave={() => setShowFuture(false)}
-                >
-                  <button
-                    type="button"
-                    // Removed onClick logic for hover behavior
-                    className={`rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5 inline-flex items-center gap-1`}
-                  >
-                    <span>{i.name}</span>
-                    <span className="text-[16px]">▾</span>
-                  </button>
-                  {showFuture && (
-                    <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Science</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Technology</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Education</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Health</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Culture</button>
-                    </div>
+                  {(i.name === "Future" && showFuture) && (
+                    <div className="absolute left-1/2 top-full z-30 mt-1 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
+                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /future/... */}
+                      <Link href="/future/science" className="block w-full px-3 py-2 hover:bg-zinc-100">Science</Link>
+                      <Link href="/future/technology" className="block w-full px-3 py-2 hover:bg-zinc-100">Technology</Link>
+                      <Link href="/future/education" className="block w-full px-3 py-2 hover:bg-zinc-100">Education</Link>
+                      <Link href="/future/health" className="block w-full px-3 py-2 hover:bg-zinc-100">Health</Link>
+                      <Link href="/future/culture" className="block w-full px-3 py-2 hover:bg-zinc-100">Culture</Link>
+                    </div>
                   )}
                 </div>
               ) : (
                 <Link
                   key={i.name}
-                  href={i.name === "Home" ? "/" : "#"}
+                  href={i.href}
                   className={`rounded px-2 py-1 text-[11px] sm:text-xs text-white ${
-                    // Added underline class for active link (Home)
-                    i.name === 'Home' ? 'font-bold bg-black/10 underline' : 'hover:bg-black/5'
+                    isActive(i.href) ? 'font-bold bg-black/10 underline' : 'hover:bg-black/5' // <-- APPLIED ACTIVE STYLES
                   }`}
                 >
                   {i.name} {i.hasDropdown && "▾"}
@@ -207,62 +223,59 @@ function PrimaryNav() {
           <div className="flex items-center justify-between gap-2">
             <div className="flex flex-wrap items-center gap-1">
               {secondRow.map((i) => (
-                i.name === "Maritime" ? (
+                i.hasDropdown ? (
                   <div 
                     key={i.name} 
                     className="relative"
-                    onMouseEnter={() => setShowMaritime(true)}
-                    onMouseLeave={() => setShowMaritime(false)}
+                    onMouseEnter={() => {
+                      if (i.name === "Maritime") setShowMaritime(true);
+                      if (i.name === "Economy & Market") setShowEconomy(true);
+                    }}
+                    onMouseLeave={() => {
+                      if (i.name === "Maritime") setShowMaritime(false);
+                      if (i.name === "Economy & Market") setShowEconomy(false);
+                    }}
                   >
-                    <button
-                      type="button"
-                      // Removed onClick logic for hover behavior
-                      className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
+                    <Link
+                      href={i.href} // Primary link navigates here on click
+                      className={`inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5 ${
+                          isActive(i.href) ? 'font-bold bg-black/10 underline' : '' // <-- APPLIED ACTIVE STYLES
+                      }`}
                     >
                       <span>{i.name}</span>
                       <span className="text-[16px]">▾</span>
-                    </button>
-                    {showMaritime && (
-                      <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Transport</button>
-                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Port</button>
-                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Safety</button>
-                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Ship Operations</button>
-                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Sustainability</button>
-                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Offshores</button>
-                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Repairs</button>
-                      </div>
-                    )}
-                  </div>
-                ) : i.name === "Economy & Market" ? (
-                  <div 
-                    key={i.name} 
-                    className="relative"
-                    onMouseEnter={() => setShowEconomy(true)}
-                    onMouseLeave={() => setShowEconomy(false)}
-                  >
-                    <button
-                      type="button"
-                      // Removed onClick logic for hover behavior
-                      className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
-                    >
-                      <span>{i.name}</span>
-                      <span className="text-[16px]">▾</span>
-                    </button>
-                    {showEconomy && (
-                      <div className="absolute left-1/2 top-full z-30 mt-2 w-36 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Money</button>
-                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Aviation</button>
-                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</button>
-                        <button className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</button>
-                      </div>
+                    </Link>
+
+                    {/* Dropdown Content */}
+                    {(i.name === "Maritime" && showMaritime) && (
+                      <div className="absolute left-1/2 top-full z-30 mt-1 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
+                        {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /maritime/... */}
+                        <Link href="/maritime/transport" className="block w-full px-3 py-2 hover:bg-zinc-100">Transport</Link>
+                        <Link href="/maritime/port" className="block w-full px-3 py-2 hover:bg-zinc-100">Port</Link>
+                        <Link href="/maritime/safety" className="block w-full px-3 py-2 hover:bg-zinc-100">Safety</Link>
+                        <Link href="/maritime/ship-operations" className="block w-full px-3 py-2 hover:bg-zinc-100">Ship Operations</Link>
+                        <Link href="/maritime/sustainability" className="block w-full px-3 py-2 hover:bg-zinc-100">Sustainability</Link>
+                        <Link href="/maritime/offshores" className="block w-full px-3 py-2 hover:bg-zinc-100">Offshores</Link>
+                        <Link href="/maritime/repairs" className="block w-full px-3 py-2 hover:bg-zinc-100">Repairs</Link>
+                      </div>
+                    )}
+                    {(i.name === "Economy & Market" && showEconomy) && (
+                      <div className="absolute left-1/2 top-full z-30 mt-1 w-36 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
+                        {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /economy-market/... */}
+                        <Link href="/economy-market/money" className="block w-full px-3 py-2 hover:bg-zinc-100">Money</Link>
+                        <Link href="/economy-market/aviation" className="block w-full px-3 py-2 hover:bg-zinc-100">Aviation</Link>
+                        <Link href="/economy-market/economy" className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</Link>
+                        <Link href="/economy-market/finance" className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</Link>
+                      </div>
                     )}
                   </div>
                 ) : (
                   <Link
                     key={i.name}
-                    href={i.name === "Home" ? "/" : "#"}
-                    className="rounded px-2 py-1 text-[11px] sm:text-xs text-white hover:bg-black/5"
+                    href={i.href}
+                    className={`rounded px-2 py-1 text-[11px] sm:text-xs text-white ${
+                      isActive(i.href) ? 'font-bold bg-black/10 underline' : 'hover:bg-black/5' // <-- APPLIED ACTIVE STYLES
+                    }`}
                   >
                     {i.name} {i.hasDropdown && "▾"}
                   </Link>
@@ -303,116 +316,85 @@ function PrimaryNav() {
         <nav className="hidden items-center justify-between py-2 text-[11px] sm:text-xs md:flex md:text-[13px]">
           <div className="-mx-2 flex items-center gap-1 sm:gap-2">
             {items.map((i) => (
-              i.name === "Business" ? (
+              i.hasDropdown ? (
+                // Use a wrapper div for hover state
                 <div 
                   key={i.name} 
                   className="relative"
-                  onMouseEnter={() => setShowBusiness(true)}
-                  onMouseLeave={() => setShowBusiness(false)}
+                  onMouseEnter={() => {
+                    if (i.name === "Business") setShowBusiness(true);
+                    if (i.name === "Future") setShowFuture(true);
+                    if (i.name === "Maritime") setShowMaritime(true);
+                    if (i.name === "Economy & Market") setShowEconomy(true);
+                  }}
+                  onMouseLeave={() => {
+                    if (i.name === "Business") setShowBusiness(false);
+                    if (i.name === "Future") setShowFuture(false);
+                    if (i.name === "Maritime") setShowMaritime(false);
+                    if (i.name === "Economy & Market") setShowEconomy(false);
+                  }}
                 >
-                  <button
-                    type="button"
-                    // Removed onClick logic for hover behavior
-                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5"
+                  <Link
+                    href={i.href} // Primary link navigates here on click
+                    className={`inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5 ${
+                        isActive(i.href) ? 'font-bold bg-black/10 underline' : '' // <-- APPLIED ACTIVE STYLES
+                    }`}
                   >
                     <span>{i.name}</span>
                     <span className="text-[16px]">▾</span>
-                  </button>
-                  {showBusiness && (
-                    <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream oil &amp; gas</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream oil &amp; gas</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Power</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Energy</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Natural Gas</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Money</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</button>
-                    </div>
+                  </Link>
+
+                  {/* Dropdown Content */}
+                  {(i.name === "Business" && showBusiness) && (
+                   <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
+                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /business/... */}
+                     <Link href="/business/upstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream oil &amp; gas</Link>
+                      <Link href="/business/downstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream oil &amp; gas</Link>
+                      <Link href="/business/energy" className="block w-full px-3 py-2 hover:bg-zinc-100">Power</Link>
+                      <Link href="/business/energy" className="block w-full px-3 py-2 hover:bg-zinc-100">Energy</Link>
+                      <Link href="/business/natural-gas" className="block w-full px-3 py-2 hover:bg-zinc-100">Natural Gas</Link>
+                      <Link href="/business/money" className="block w-full px-3 py-2 hover:bg-zinc-100">Money</Link>
+                      <Link href="/business/finance" className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</Link>
+                    </div>
                   )}
-                </div>
-              ) : i.name === "Future" ? (
-                <div 
-                  key={i.name} 
-                  className="relative"
-                  onMouseEnter={() => setShowFuture(true)}
-                  onMouseLeave={() => setShowFuture(false)}
-                >
-                  <button
-                    type="button"
-                    // Removed onClick logic for hover behavior
-                    className={`rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5 inline-flex items-center gap-1`}
-                  >
-                    <span>{i.name}</span>
-                    <span className="text-[16px]">▾</span>
-                  </button>
-                  {showFuture && (
+                  {(i.name === "Future" && showFuture) && (
                     <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Science</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Technology</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Education</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Health</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Culture</button>
-                    </div>
+                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /future/... */}
+                      <Link href="/future/science" className="block w-full px-3 py-2 hover:bg-zinc-100">Science</Link>
+                      <Link href="/future/technology" className="block w-full px-3 py-2 hover:bg-zinc-100">Technology</Link>
+                      <Link href="/future/education" className="block w-full px-3 py-2 hover:bg-zinc-100">Education</Link>
+                      <Link href="/future/health" className="block w-full px-3 py-2 hover:bg-zinc-100">Health</Link>
+                      <Link href="/future/culture" className="block w-full px-3 py-2 hover:bg-zinc-100">Culture</Link>
+                    </div>
                   )}
-                </div>
-              ) : i.name === "Maritime" ? (
-                <div 
-                  key={i.name} 
-                  className="relative"
-                  onMouseEnter={() => setShowMaritime(true)}
-                  onMouseLeave={() => setShowMaritime(false)}
-                >
-                  <button
-                    type="button"
-                    // Removed onClick logic for hover behavior
-                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5"
-                  >
-                    <span>{i.name}</span>
-                    <span className="text-[16px]">▾</span>
-                  </button>
-                  {showMaritime && (
+                  {(i.name === "Maritime" && showMaritime) && (
                     <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Transport</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Port</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Safety</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Ship Operations</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Sustainability</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Offshores</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Repairs</button>
-                    </div>
+                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /maritime/... */}
+                      <Link href="/maritime/transport" className="block w-full px-3 py-2 hover:bg-zinc-100">Transport</Link>
+                      <Link href="/maritime/port" className="block w-full px-3 py-2 hover:bg-zinc-100">Port</Link>
+                      <Link href="/maritime/safety" className="block w-full px-3 py-2 hover:bg-zinc-100">Safety</Link>
+                      <Link href="/maritime/ship-operations" className="block w-full px-3 py-2 hover:bg-zinc-100">Ship Operations</Link>
+                      <Link href="/maritime/sustainability" className="block w-full px-3 py-2 hover:bg-zinc-100">Sustainability</Link>
+                      <Link href="/maritime/offshores" className="block w-full px-3 py-2 hover:bg-zinc-100">Offshores</Link>
+                      <Link href="/maritime/repairs" className="block w-full px-3 py-2 hover:bg-zinc-100">Repairs</Link>
+                    </div>
                   )}
-                </div>
-              ) : i.name === "Economy & Market" ? (
-                <div 
-                  key={i.name} 
-                  className="relative"
-                  onMouseEnter={() => setShowEconomy(true)}
-                  onMouseLeave={() => setShowEconomy(false)}
-                >
-                  <button
-                    type="button"
-                    // Removed onClick logic for hover behavior
-                    className="inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white hover:bg-black/5"
-                  >
-                    <span>{i.name}</span>
-                    <span className="text-[16px]">▾</span>
-                  </button>
-                  {showEconomy && (
+                  {(i.name === "Economy & Market" && showEconomy) && (
                     <div className="absolute left-1/2 top-full z-30 mt-2 w-36 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Money</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Aviation</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</button>
-                      <button className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</button>
-                    </div>
+                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /economy-market/... */}
+                      <Link href="/economy-market/money" className="block w-full px-3 py-2 hover:bg-zinc-100">Money</Link>
+                      <Link href="/economy-market/aviation" className="block w-full px-3 py-2 hover:bg-zinc-100">Aviation</Link>
+                      <Link href="/economy-market/economy" className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</Link>
+                      <Link href="/economy-market/finance" className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</Link>
+                    </div>
                   )}
                 </div>
               ) : (
                 <Link
                   key={i.name}
-                  href={i.name === "Home" ? "/" : "#"}
+                  href={i.href}
                   className={`rounded px-2 py-1 text-[11px] sm:text-xs md:text-sm lg:text-[15px] text-white ${
-                    // Added underline class for active link (Home)
-                    i.name === 'Home' ? 'font-bold bg-black/10 underline' : 'hover:bg-black/5'
+                    isActive(i.href) ? 'font-bold bg-black/10 underline' : 'hover:bg-black/5' // <-- APPLIED ACTIVE STYLES
                   }`}
                 >
                   {i.name} {i.hasDropdown && "▾"}
