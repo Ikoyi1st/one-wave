@@ -1,8 +1,132 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { usePathname } from "next/navigation"; // <-- ADDED THIS IMPORT
+import React, { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+
+// --- START: FULL BANNER CAROUSEL COMPONENT ---
+
+// 1. Define the complete banner content (Image + Text)
+const bannerSlides = [
+  { 
+    id: 1,
+    imageSrc: "/container.png", 
+    imageAlt: "Nigeria Police Summit Banner",
+    title: "The Forces Network",
+    subtitle: "Leading a New Era of Inclusive Forces and Development Through Sustainable Innovation",
+    link: "/forces-network"
+  },
+  { 
+    id: 2,
+    imageSrc: "/container-1.png", 
+    imageAlt: "Tax Conference Banner",
+    title: "Tax Conference",
+    subtitle: "Driving the Future of Power Through Strategic Investment, Innovation, and Collaboration",
+    link: "/tax-conference"
+  },
+  { 
+    id: 3,
+    imageSrc: "/container-2.png", 
+    imageAlt: "Electricity Conference Banner",
+    title: "Electricity Conference",
+    subtitle: "Uniting Leaders to Shape the Future of Tax Compliance, Digital Transformation, and Economic Governance",
+    link: "/maritime-summit"
+  },
+  // Add more slides here...
+];
+
+const ROTATION_INTERVAL = 5000; // Rotate every 5 seconds (5000ms)
+
+function FullBannerCarousel() {
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+  // Auto-rotate every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlideIndex((prev) => (prev + 1) % bannerSlides.length);
+    }, ROTATION_INTERVAL);
+    return () => clearInterval(interval);
+  }, []);
+
+  const currentSlide = bannerSlides[currentSlideIndex];
+
+  const goNext = () => {
+    setCurrentSlideIndex((prev) =>
+      prev === bannerSlides.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const goPrev = () => {
+    setCurrentSlideIndex((prev) =>
+      prev === 0 ? bannerSlides.length - 1 : prev - 1
+    );
+  };
+
+  return (
+    <div className="relative mt-2 grid items-center md:grid-cols-[1fr_1.8fr] transition-opacity duration-700">
+
+      {/* LEFT TEXT */}
+      <div className="hidden md:block">
+        <h2 className="font-display text-3xl lg:text-[42px] font-bold leading-tight md:text-4xl">
+          {currentSlide.title}
+        </h2>
+        <p className="mt-2 text-[17px] leading-snug text-zinc-600">
+          {currentSlide.subtitle}
+        </p>
+      </div>
+
+      {/* RIGHT IMAGE */}
+      <Link href={currentSlide.link} className="ml-8 h-full overflow-hidden relative rounded-lg hover:cursor-pointer">
+       <Image
+         src={currentSlide.imageSrc}
+         alt={currentSlide.imageAlt}
+         width={1200}
+          height={200}
+           className="h-full w-full object-cover rounded-lg"
+           priority={currentSlideIndex === 0}
+             />
+          </Link>
+
+      {/* --- OUTSIDE LEFT CHEVRON --- */}
+      <button
+        onClick={goPrev}
+        className="absolute -left-12 top-1/2 -translate-y-1/2 h-10 w-10 flex items-center justify-center hover:cursor-pointer"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          // Default color: #9A9A9A66 (inactive), Hover color: #221919B2 (active)
+          className="h-6 w-6 stroke-[rgba(154,154,154,0.4)] group-hover:stroke-[rgba(34,25,25,0.7)] transition-colors"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      {/* --- OUTSIDE RIGHT CHEVRON --- */}
+      <button
+        onClick={goNext}
+        className="absolute -right-12 top-1/2 -translate-y-1/2 h-10 w-10 flex items-center justify-center hover:cursor-pointer"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          // Default color: #9A9A9A66 (inactive), Hover color: #221919B2 (active)
+          className="h-6 w-6 stroke-[rgba(154,154,154,0.4)] group-hover:stroke-[rgba(34,25,25,0.7)] transition-colors"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+    </div>
+  );
+}
+
+
+// --- END: FULL BANNER CAROUSEL COMPONENT ---
 
 function TopUtilities() {
   // Switched from controlled click to hover using onMouseEnter/onMouseLeave
@@ -24,30 +148,30 @@ function TopUtilities() {
           >
             <button
               type="button"
-              className="inline-flex items-center gap-1 text-inherit focus:outline-none"
+              className="inline-flex items-center text-inherit focus:outline-none"
             >
               <span>INDUSTRIES WE SERVE</span>
               <span className="text-[16px]">▾</span>
             </button>
 
             {showIndustries && (
-              <div className="absolute left-1/2 top-full z-30 mt-1 py-2 w-44 -translate-x-1/2 rounded-md bg-white text-center text-[12px] text-[#111827] shadow-lg">
-                {/* ADDED Link COMPONENTS WITH PLACEHOLDER HREFs */}
-                <Link href="/industries/business/finance" className="block w-full px-3 py-2 hover:bg-zinc-100">Business &amp; Finance</Link>
-                <Link href="/industries/business/downstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream Oil</Link>
-                <Link href="/industries/business/economy" className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</Link>
-                <Link href="/industries/electricity" className="block w-full px-3 py-2 hover:bg-zinc-100">Electricity</Link>
-                <Link href="/industries/maritime-ports" className="block w-full px-3 py-2 hover:bg-zinc-100">Maritime &amp; Ports</Link>
-                <Link href="/industries/offshore-vessels" className="block w-full px-3 py-2 hover:bg-zinc-100">Offshore Vessels</Link>
-                <Link href="/industries/business/upstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream Oil</Link>
-              </div>
+              <div className="absolute left-1/2 top-full z-30 w-44 -translate-x-1/2 rounded-md bg-white text-center text-[12px] text-[#111827] shadow-lg">
+                {/* ADDED Link COMPONENTS WITH PLACEHOLDER HREFs */}
+                <Link href="/business/finance" className="block w-full px-3 py-3 hover:bg-zinc-100">Business &amp; Finance</Link>
+                <Link href="/business/downstream-oil" className="block w-full px-3 py-3 hover:bg-zinc-100">Downstream Oil</Link>
+                <Link href="/business/economy" className="block w-full px-3 py-3 hover:bg-zinc-100">Economy</Link>
+                <Link href="/industries/electricity" className="block w-full px-3 py-3 hover:bg-zinc-100">Electricity</Link>
+                <Link href="/industries/maritime-ports" className="block w-full px-3 py-3 hover:bg-zinc-100">Maritime &amp; Ports</Link>
+                <Link href="/industries/offshore-vessels" className="block w-full px-3 py-3 hover:bg-zinc-100">Offshore Vessels</Link>
+                <Link href="/business/upstream-oil" className="block w-full px-3 py-3 hover:bg-zinc-100">Upstream Oil</Link>
+              </div>
             )}
           </div>
 
           <Link href="/who-we-are">WHO WE ARE</Link>
 
           {/* Events dropdown (Converted to open on hover, using placeholder content) */}
-            <Link href="/events">EVENTS</Link>
+          <Link href="/events">EVENTS</Link>
 
           <Link href="/careers">CAREERS</Link>
         </nav>
@@ -62,35 +186,13 @@ function BrandAndBanner() {
       {/* Logo positioned at the top-left */}
       <div className="mx-auto max-w-7xl px-6 pt-2">
         <Link href="/" className="inline-flex items-center gap-3">
-          {/* Adjusted to match the size and spacing in the screenshot context */}
           {/* NOTE: Image component requires 'src', which will be a placeholder since external paths are restricted */}
           <Image src="/logo.png" alt="Onewave News" width={180} height={32} className="mt-2" />
         </Link>
 
-        {/* Banner */}
-        {/* Row with left copy and right banner image, matching the screenshot layout */}
-        <div className="mt-2 grid items-center md:grid-cols-[1fr_1.8fr]">
-          {/* Left: Forces Network copy */}
-          <div className="hidden md:block">
-            <h2 className="font-display text-3xl lg:text-[42px] font-bold leading-tight md:text-4xl">The Forces Network</h2>
-            <p className="mt-2 text-[17px] leading-snug text-zinc-600">
-              Leading a New Era of Inclusive Forces and Development
-              <br />
-              Through Sustainable Innovation
-            </p>
-          </div>
-          {/* Right: Banner image */}
-          <div className="h-full overflow-hidden bg-white md:h-full lg:h-full">
-            {/* NOTE: Image component requires 'src', using a placeholder */}
-            <Image
-              src="/container.png"
-              alt="Nigeria Police Summit"
-              width={1200}
-              height={200}
-              className="h-full w-full object-cover rounded-lg"
-            />
-          </div>
-        </div>
+        {/* Banner - Now a complete carousel component */}
+        <FullBannerCarousel /> 
+        
       </div>
     </div>
   );
@@ -129,12 +231,11 @@ function PrimaryNav() {
   const pathname = usePathname();
 
   const isActive = (href: string) => {
-    // If the link is home "/", check for exact match or if pathname is empty (root)
+    // If the link is home "/", check for exact match
     if (href === '/') {
       return pathname === href;
     }
     // For other links, check if the current path starts with the link's href
-    // This handles nested routes like /business/finance
     return pathname.startsWith(href);
   };
   // --- END: ADDED ACTIVE PATH LOGIC ---
@@ -152,7 +253,7 @@ function PrimaryNav() {
     <div className="border-y border-[--color-border] bg-[#2E3D68] font-semibold text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10">
         <div className="flex flex-col gap-2 py-2 text-[10px] sm:text-xs md:hidden">
-          <div className="flex flex-wrap items-center gap-1">
+          <div className="flex flex-wrap items-center">
             {firstRow.map((i) => (
               i.hasDropdown ? (
                 // Use a wrapper div for hover state
@@ -185,26 +286,26 @@ function PrimaryNav() {
 
                   {/* Dropdown Content */}
                   {(i.name === "Business" && showBusiness) && (
-                    <div className="absolute left-1/2 top-full z-30 mt-1 w-44 -translate-x-1/2 rounded-md bg-white text-center text-[12px] text-[#111827] shadow-lg">
-                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /business/... */}
-                      <Link href="/business/upstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream oil &amp; gas</Link>
-                      <Link href="/business/downstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream oil &amp; gas</Link>
-                      <Link href="/business/energy" className="block w-full px-3 py-2 hover:bg-zinc-100">Power</Link>
-                      <Link href="/business/energy" className="block w-full px-3 py-2 hover:bg-zinc-100">Energy</Link>
-                      <Link href="/business/natural-gas" className="block w-full px-3 py-2 hover:bg-zinc-100">Natural Gas</Link>
-                      <Link href="/business/money" className="block w-full px-3 py-2 hover:bg-zinc-100">Money</Link>
-                      <Link href="/business/finance" className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</Link>
-                    </div>
+                    <div className="absolute left-1/2 top-full z-30 w-44 -translate-x-1/2 rounded-md bg-white text-center text-[12px] text-[#111827] shadow-lg">
+                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /business/... */}
+                      <Link href="/business/upstream-oil" className="block w-full px-3 py-3 hover:bg-zinc-100">Upstream oil &amp; gas</Link>
+                      <Link href="/business/downstream-oil" className="block w-full px-3 py-3 hover:bg-zinc-100">Downstream oil &amp; gas</Link>
+                      <Link href="/business/power" className="block w-full px-3 py-3 hover:bg-zinc-100">Power</Link>
+                      <Link href="/business/energy" className="block w-full px-3 py-3 hover:bg-zinc-100">Energy</Link>
+                      <Link href="/business/natural-gas" className="block w-full px-3 py-3 hover:bg-zinc-100">Natural Gas</Link>
+                      <Link href="/business/money" className="block w-full px-3 py-3 hover:bg-zinc-100">Money</Link>
+                      <Link href="/business/finance" className="block w-full px-3 py-3 hover:bg-zinc-100">Finance</Link>
+                    </div>
                   )}
                   {(i.name === "Future" && showFuture) && (
-                    <div className="absolute left-1/2 top-full z-30 mt-1 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /future/... */}
-                      <Link href="/future/science" className="block w-full px-3 py-2 hover:bg-zinc-100">Science</Link>
-                      <Link href="/future/technology" className="block w-full px-3 py-2 hover:bg-zinc-100">Technology</Link>
-                      <Link href="/future/education" className="block w-full px-3 py-2 hover:bg-zinc-100">Education</Link>
-                      <Link href="/future/health" className="block w-full px-3 py-2 hover:bg-zinc-100">Health</Link>
-                      <Link href="/future/culture" className="block w-full px-3 py-2 hover:bg-zinc-100">Culture</Link>
-                    </div>
+                    <div className="absolute left-1/2 top-full z-30 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
+                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /future/... */}
+                      <Link href="/future/science" className="block w-full px-3 py-3 hover:bg-zinc-100">Science</Link>
+                      <Link href="/future/technology" className="block w-full px-3 py-3 hover:bg-zinc-100">Technology</Link>
+                      <Link href="/future/education" className="block w-full px-3 py-3 hover:bg-zinc-100">Education</Link>
+                      <Link href="/future/health" className="block w-full px-3 py-3 hover:bg-zinc-100">Health</Link>
+                      <Link href="/future/culture" className="block w-full px-3 py-3 hover:bg-zinc-100">Culture</Link>
+                    </div>
                   )}
                 </div>
               ) : (
@@ -248,25 +349,25 @@ function PrimaryNav() {
 
                     {/* Dropdown Content */}
                     {(i.name === "Maritime" && showMaritime) && (
-                      <div className="absolute left-1/2 top-full z-30 mt-1 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                        {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /maritime/... */}
-                        <Link href="/maritime/transport" className="block w-full px-3 py-2 hover:bg-zinc-100">Transport</Link>
-                        <Link href="/maritime/port" className="block w-full px-3 py-2 hover:bg-zinc-100">Port</Link>
-                        <Link href="/maritime/safety" className="block w-full px-3 py-2 hover:bg-zinc-100">Safety</Link>
-                        <Link href="/maritime/ship-operations" className="block w-full px-3 py-2 hover:bg-zinc-100">Ship Operations</Link>
-                        <Link href="/maritime/sustainability" className="block w-full px-3 py-2 hover:bg-zinc-100">Sustainability</Link>
-                        <Link href="/maritime/offshores" className="block w-full px-3 py-2 hover:bg-zinc-100">Offshores</Link>
-                        <Link href="/maritime/repairs" className="block w-full px-3 py-2 hover:bg-zinc-100">Repairs</Link>
-                      </div>
-                    )}
-                    {(i.name === "Economy & Market" && showEconomy) && (
-                      <div className="absolute left-1/2 top-full z-30 mt-1 w-36 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                        {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /economy-market/... */}
-                        <Link href="/economy-market/money" className="block w-full px-3 py-2 hover:bg-zinc-100">Money</Link>
-                        <Link href="/economy-market/aviation" className="block w-full px-3 py-2 hover:bg-zinc-100">Aviation</Link>
-                        <Link href="/economy-market/economy" className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</Link>
-                        <Link href="/economy-market/finance" className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</Link>
-                      </div>
+                      <div className="absolute left-1/2 top-full z-30 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
+                        {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /maritime/... */}
+                        <Link href="/maritime/transport" className="block w-full px-3 py-3 hover:bg-zinc-100">Transport</Link>
+                        <Link href="/maritime/port" className="block w-full px-3 py-3 hover:bg-zinc-100">Port</Link>
+                        <Link href="/maritime/safety" className="block w-full px-3 py-3 hover:bg-zinc-100">Safety</Link>
+                        <Link href="/maritime/ship-operations" className="block w-full px-3 py-3 hover:bg-zinc-100">Ship Operations</Link>
+                        <Link href="/maritime/sustainability" className="block w-full px-3 py-3 hover:bg-zinc-100">Sustainability</Link>
+                        <Link href="/maritime/offshores" className="block w-full px-3 py-3 hover:bg-zinc-100">Offshores</Link>
+                        <Link href="/maritime/repairs" className="block w-full px-3 py-3 hover:bg-zinc-100">Repairs</Link>
+                      </div>
+                    )}
+                    {(i.name === "Economy & Market" && showEconomy) && (
+                      <div className="absolute left-1/2 top-full z-30 w-36 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
+                        {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /economy-market/... */}
+                        <Link href="/economy-market/money" className="block w-full px-3 py-3 hover:bg-zinc-100">Money</Link>
+                        <Link href="/economy-market/aviation" className="block w-full px-3 py-3 hover:bg-zinc-100">Aviation</Link>
+                        <Link href="/economy-market/economy" className="block w-full px-3 py-3 hover:bg-zinc-100">Economy</Link>
+                        <Link href="/economy-market/finance" className="block w-full px-3 py-3 hover:bg-zinc-100">Finance</Link>
+                      </div>
                     )}
                   </div>
                 ) : (
@@ -314,7 +415,7 @@ function PrimaryNav() {
 
         {/* --- Desktop layout --- */}
         <nav className="hidden items-center justify-between py-2 text-[11px] sm:text-xs md:flex md:text-[13px]">
-          <div className="-mx-2 flex items-center gap-1 sm:gap-2">
+          <div className="-mx-2 flex items-center sm:gap-2">
             {items.map((i) => (
               i.hasDropdown ? (
                 // Use a wrapper div for hover state
@@ -346,47 +447,47 @@ function PrimaryNav() {
 
                   {/* Dropdown Content */}
                   {(i.name === "Business" && showBusiness) && (
-                   <div className="absolute left-1/2 top-full z-30 mt-2 w-44 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /business/... */}
-                     <Link href="/business/upstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Upstream oil &amp; gas</Link>
-                      <Link href="/business/downstream-oil" className="block w-full px-3 py-2 hover:bg-zinc-100">Downstream oil &amp; gas</Link>
-                      <Link href="/business/energy" className="block w-full px-3 py-2 hover:bg-zinc-100">Power</Link>
-                      <Link href="/business/energy" className="block w-full px-3 py-2 hover:bg-zinc-100">Energy</Link>
-                      <Link href="/business/natural-gas" className="block w-full px-3 py-2 hover:bg-zinc-100">Natural Gas</Link>
-                      <Link href="/business/money" className="block w-full px-3 py-2 hover:bg-zinc-100">Money</Link>
-                      <Link href="/business/finance" className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</Link>
-                    </div>
+                   <div className="absolute left-1/2 top-full z-30 w-44 -translate-x-1/2 rounded-md bg-white py-1 text-center text-[12px] text-[#111827] shadow-lg">
+                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /business/... */}
+                      <Link href="/business/upstream-oil" className="block w-full px-3 py-3 hover:bg-zinc-100">Upstream oil &amp; gas</Link>
+                      <Link href="/business/downstream-oil" className="block w-full px-3 py-3 hover:bg-zinc-100">Downstream oil &amp; gas</Link>
+                      <Link href="/business/power" className="block w-full px-3 py-3 hover:bg-zinc-100">Power</Link>
+                      <Link href="/business/energy" className="block w-full px-3 py-3 hover:bg-zinc-100">Energy</Link>
+                      <Link href="/business/natural-gas" className="block w-full px-3 py-3 hover:bg-zinc-100">Natural Gas</Link>
+                      <Link href="/business/money" className="block w-full px-3 py-3 hover:bg-zinc-100">Money</Link>
+                      <Link href="/business/finance" className="block w-full px-3 py-3 hover:bg-zinc-100">Finance</Link>
+                    </div>
                   )}
                   {(i.name === "Future" && showFuture) && (
-                    <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /future/... */}
-                      <Link href="/future/science" className="block w-full px-3 py-2 hover:bg-zinc-100">Science</Link>
-                      <Link href="/future/technology" className="block w-full px-3 py-2 hover:bg-zinc-100">Technology</Link>
-                      <Link href="/future/education" className="block w-full px-3 py-2 hover:bg-zinc-100">Education</Link>
-                      <Link href="/future/health" className="block w-full px-3 py-2 hover:bg-zinc-100">Health</Link>
-                      <Link href="/future/culture" className="block w-full px-3 py-2 hover:bg-zinc-100">Culture</Link>
-                    </div>
+                    <div className="absolute left-1/2 top-full z-30 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
+                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /future/... */}
+                      <Link href="/future/science" className="block w-full px-3 py-3 hover:bg-zinc-100">Science</Link>
+                      <Link href="/future/technology" className="block w-full px-3 py-3 hover:bg-zinc-100">Technology</Link>
+                      <Link href="/future/education" className="block w-full px-3 py-3 hover:bg-zinc-100">Education</Link>
+                      <Link href="/future/health" className="block w-full px-3 py-3 hover:bg-zinc-100">Health</Link>
+                      <Link href="/future/culture" className="block w-full px-3 py-3 hover:bg-zinc-100">Culture</Link>
+                    </div>
                   )}
                   {(i.name === "Maritime" && showMaritime) && (
-                    <div className="absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /maritime/... */}
-                      <Link href="/maritime/transport" className="block w-full px-3 py-2 hover:bg-zinc-100">Transport</Link>
-                      <Link href="/maritime/port" className="block w-full px-3 py-2 hover:bg-zinc-100">Port</Link>
-                      <Link href="/maritime/safety" className="block w-full px-3 py-2 hover:bg-zinc-100">Safety</Link>
-                      <Link href="/maritime/ship-operations" className="block w-full px-3 py-2 hover:bg-zinc-100">Ship Operations</Link>
-                      <Link href="/maritime/sustainability" className="block w-full px-3 py-2 hover:bg-zinc-100">Sustainability</Link>
-                      <Link href="/maritime/offshores" className="block w-full px-3 py-2 hover:bg-zinc-100">Offshores</Link>
-                      <Link href="/maritime/repairs" className="block w-full px-3 py-2 hover:bg-zinc-100">Repairs</Link>
-                    </div>
+                    <div className="absolute left-1/2 top-full z-30 w-40 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
+                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /maritime/... */}
+                      <Link href="/maritime/transport" className="block w-full px-3 py-3 hover:bg-zinc-100">Transport</Link>
+                      <Link href="/maritime/port" className="block w-full px-3 py-3 hover:bg-zinc-100">Port</Link>
+                      <Link href="/maritime/safety" className="block w-full px-3 py-3 hover:bg-zinc-100">Safety</Link>
+                      <Link href="/maritime/ship-operations" className="block w-full px-3 py-3 hover:bg-zinc-100">Ship Operations</Link>
+                      <Link href="/maritime/sustainability" className="block w-full px-3 py-3 hover:bg-zinc-100">Sustainability</Link>
+                      <Link href="/maritime/offshores" className="block w-full px-3 py-3 hover:bg-zinc-100">Offshores</Link>
+                      <Link href="/maritime/repairs" className="block w-full px-3 py-3 hover:bg-zinc-100">Repairs</Link>
+                    </div>
                   )}
                   {(i.name === "Economy & Market" && showEconomy) && (
-                    <div className="absolute left-1/2 top-full z-30 mt-2 w-36 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
-                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /economy-market/... */}
-                      <Link href="/economy-market/money" className="block w-full px-3 py-2 hover:bg-zinc-100">Money</Link>
-                      <Link href="/economy-market/aviation" className="block w-full px-3 py-2 hover:bg-zinc-100">Aviation</Link>
-                      <Link href="/economy-market/economy" className="block w-full px-3 py-2 hover:bg-zinc-100">Economy</Link>
-                      <Link href="/economy-market/finance" className="block w-full px-3 py-2 hover:bg-zinc-100">Finance</Link>
-                    </div>
+                    <div className="absolute left-1/2 top-full z-30 w-36 -translate-x-1/2 rounded-md bg-white py-2 text-center text-[12px] text-[#111827] shadow-lg">
+                      {/* CONVERTED TO LINK WITH HREFs BASED ON PARENT: /economy-market/... */}
+                      <Link href="/economy-market/money" className="block w-full px-3 py-3 hover:bg-zinc-100">Money</Link>
+                      <Link href="/economy-market/aviation" className="block w-full px-3 py-3 hover:bg-zinc-100">Aviation</Link>
+                      <Link href="/economy-market/economy" className="block w-full px-3 py-3 hover:bg-zinc-100">Economy</Link>
+                      <Link href="/economy-market/finance" className="block w-full px-3 py-3 hover:bg-zinc-100">Finance</Link>
+                    </div>
                   )}
                 </div>
               ) : (
