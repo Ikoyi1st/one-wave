@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import NewsHeader from "@/components/news/NewsHeader";
 import NewsFooter from "@/components/news/NewsFooter";
-import AgendaSection from "@/components/AgendaSection";
+import AgendaSection from "@/components/Agenda";
 import Link from "next/link";
 
 // Metadata for the Tax Conference landing page
@@ -14,30 +14,6 @@ export const metadata: Metadata = {
 
 export default function TaxConferencePage() {
 
-  // Benefit cards now using images instead of colored backgrounds
-  const benefitCards = [
-    {
-      title: "",
-      image: "/benefit.png",
-    },
-    {
-      title: "",
-      image: "/benefit-2.png",
-    },
-    {
-      title: "",
-      image: "/benefit-3.png",
-    },
-    {
-      title: "",
-      image: "benefit-4.png",
-    },
-    {
-      title: "",
-      image: "/benefit-5.png",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-white">
       <NewsHeader hideBanner hideTicker />
@@ -47,7 +23,7 @@ export default function TaxConferencePage() {
         {/* Hero Banner */}
         <section className="relative h-[450px] w-full mt-8 text-white">
           <Image
-            src="/tax.png"
+            src="/elect.png"
             fill
             className="object-cover"
             alt="Tax Conference Image"
@@ -60,7 +36,7 @@ export default function TaxConferencePage() {
               <div className="grid w-full gap-8 md:grid-cols-[1.6fr_1fr]">
 
                 {/* Event Card */}
-                             <div className="absolute right-0 top-1/8 w-full px-4 sm:mr-4 sm:px-0 sm:static md:absolute md:right-0 md:top-1/6 md:w-auto">
+                             <div className="absolute right-0 top-1/8 w-full px-4 sm:px-0 sm:mr-4 sm:static md:absolute md:right-0 md:top-1/6 md:w-auto">
   <div className="w-full bg-[#2E3D68] text-xs text-white shadow-lg backdrop-blur-sm 
                   pl-6 pt-6          <!-- Added for small screens -->
                   sm:ml-4 
@@ -125,30 +101,19 @@ export default function TaxConferencePage() {
               <nav className="flex flex-wrap text-[16px] items-center gap-8 border-white/10 py-8 font-bold text-[#4B5563]">
                 <Link href="#about-us">Home</Link>
                 <span className="h-4 w-[2px] bg-[#8FACFF]"></span>
-                <Link href="/tax-conference/sponsors">Sponsors</Link>
+                <Link href="/electricity-conference/sponsor">Sponsors</Link>
                 <span className="h-4 w-[2px] bg-[#8FACFF]"></span>
-                <Link href="/tax-conference/register">Register</Link>
+                <Link href="/electricity-conference/register">Register</Link>
                 <span className="h-4 w-[2px] bg-[#8FACFF]"></span>
                 <Link href="#mission">Speakers</Link>
                 <span className="h-4 w-[2px] bg-[#8FACFF]"></span>
-                <Link href="#conduct">Pricing</Link>
+                <Link href="/electricity-conference/pricing">Pricing</Link>
                 <span className="h-4 w-[2px] bg-[#8FACFF]"></span>
                 <Link href="#conduct">Become a Sponsor</Link>
               </nav>
             </div>
           </div>
 
-          {/* Intro Text */}
-          <div className="mt-4 tax-background px-4 sm:px-6 py-10 sm:py-14 text-white">
-            <h1 className="mx-auto max-w-7xl text-center text-sm font-semibold sm:text-[16px]">
-             The Nigeria’s Tax Conference will gather senior tax officials, international organisations, 
-             academics, technology providers, and business leaders to explore the<br/> evolving role of tax 
-             administrations in in Nigeria the real-time economy.<br/> Focusing on real-time tax compliance, 
-             advanced data analytics, timely revenue collection, and the integration of tax into natural 
-             business processes, the event<br/> will
-              feature high-level discussions, interactive sessions, and practical case studies.
-            </h1>
-          </div>
         </section>
 
         {/* Key Areas */}
@@ -160,17 +125,40 @@ export default function TaxConferencePage() {
 
             <ul className="mt-4 space-y-3 text-[14px] sm:text-[15px]">
               <li>
-                The Nigeria’s Tax Conference will gather senior tax officials, international
-                organisations, academics, technology providers, and business leaders to<br/> explore
-                the evolving role of tax administrations.
+                The 2026 Electricity conference will brings together industry leaders, policymakers, 
+                and innovators to discuss the evolving energy landscape and the<br/> opportunities within 
+                the sector. Attendees will gain deep insights into the latest energy sector shifts, 
+                discover investment and partnership opportunities,<br/> and engage in high-level discussions 
+                shaping the future of power.”
               </li>
 
               <li>
-               Focusing on real-time tax compliance, advanced data analytics, timely revenue collection,
-                and the integration of tax into natural business processes, the<br/> event will 
-                feature high-level discussions, interactive sessions, and practical case studies.
+               The Nigeria power market is at a serious moment with electricity demand hitting historic highs.
+                Investment in generation, transmission, and grid<br/> resilience is crucial as the energy mix has 
+                required more finance to sustain the industry, this forum will an opportunity for all the
+                 industry players and<br/> financial houses,
+                investors, utilities, developers, and policymakers to tackle critical challenges:
               </li>
             </ul>
+            <div className="mt-4 gap-10 text-[16px] sm:grid-cols-2 sm:text-[15px]">
+              <ul className="space-y-4 list-disc pl-4">
+                <li>
+                  Poor power generation and sustainability
+                </li>
+
+                <li>
+                  Grid reliability and technologies
+                </li>
+
+                <li>
+                  hydrogen, carbon capture, and hybrid renewables markets financing
+                </li>
+
+                <li>
+                  Financing the next generation of clean energy resources in
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
 
@@ -178,33 +166,19 @@ export default function TaxConferencePage() {
         <section className="bg-white py-4 sm:py-1">
           <div className="max-w-7xl px-4 sm:px-6">
             <h2 className="text-lg font-bold uppercase tracking-wide text-[#AB2971] sm:text-xl">
-              The Conference will delve into these key areas:
+              Power Provides Unique Window into the Future of Power Generation
             </h2>
 
             <div className="mt-4 gap-10 text-[16px] sm:grid-cols-2 sm:text-[15px]">
+                <p className="mb-2">Attendees will participate in the:</p>
               <ul className="space-y-4 list-disc pl-4">
                 <li>
-                  <strong>Real-Time Tax Compliance:</strong>  the use of digital tools — such as e-invoicing systems,
-                   electronic cash registers, and online reporting platforms — allows<br/> the recording and 
-                   transmission of tax-related data automatically to authorities at the moment a transaction 
-                   occurs, ensuring transparency, reduction of<br/> fraud, and enabling immediate tax assessment.
+                 Emerging generation technologies, and the rejuvenation and the reapplication
+                  of existing technologies, to both renewable, conventional generation<br/> and hybrid sites
                 </li>
 
                 <li>
-                  <strong>Advanced Data Analytics:</strong>  utilizing real-time data analytics enables 
-                  tax authorities to monitor economic activities continuously, promptly identify<br/> compliance risks,
-                   and respond swiftly to emerging issues regarding the tax.
-                </li>
-
-                <li>
-                  <strong>Real-time revenue collection:</strong> will assist tax administration ensures timely 
-                  tax collection, equipping governments with the necessary<br/>
-                   resources to invest in public services and infrastructure.
-                </li>
-
-                <li>
-                  <strong>Integration of tax into natural processes:</strong> enabling technologies and infrastructure 
-                  for real-time tax compliance.
+                  Exploration of technologies applicable to the reliable, efficient and economically-viable generation of electricity
                 </li>
               </ul>
             </div>
@@ -213,65 +187,26 @@ export default function TaxConferencePage() {
 
         {/* Who Should Attend */}
         <section className="bg-white py-4 sm:py-2 mt-8">
-          <div className="max-w-5xl px-4 sm:px-6">
+          <div className="max-w-7xl px-4 sm:px-6">
             <h2 className="text-lg font-bold uppercase tracking-wide text-[#AB2971] sm:text-xl">
               Who Should Attend?
             </h2>
 
             <div className="mt-4 mb-8 grid gap-8 text-[14px] sm:grid-cols-2 sm:text-[15px]">
-              <ul className="space-y-4 list-disc pl-4 font-semibold">
-                <li>Accountants and Auditors</li>
-                <li>Partners and Managers</li>
-                <li>Tax Management Staff</li>
-                <li>Firm Administrators</li>
-                <li>IT Consultants</li>
-                <li>Tax Professors and Students</li>
-                <li>Industry Software Developers</li>
+              <ul className="space-y-4 list-disc pl-4 font-normal">
+                <li>Researchers Involved with Generation Technologies and Applications</li>
+                <li>Banking industry</li>
+                <li>Senior government official</li>
+                <li>Renewable energy leaders</li>
+                <li>OEM And Industry Engineers Involved with Project and Product Development</li>
+                <li>Venture Capitalists</li>
+                <li>All Types of Generation Equipment and Applications Design Engineers</li>
+                <li>Energy Policy Makers, Grant Administrators and Technology Collaborators</li>
+                <li>Senior Engineers and Industry Mentors</li>
+                <li>Early Career Engineers</li>
+                <li>Engineering Professors and Students</li>
+                <li>Industry-Specific Software Developers and Trainers</li>
               </ul>
-
-              <ul className="space-y-4 list-disc pl-4 font-semibold">
-                <li>Banking Professionals</li>
-                <li>Business Owners & Executives</li>
-                <li>Financial Managers</li>
-                <li>Government Officials</li>
-                <li>Academics & Researchers</li>
-                <li>Investors</li>
-                <li>Technology Providers</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* Benefits */}
-        <section className="py-10 sm:py-14">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <h2 className="text-center text-lg font-bold text-[#AB2971] sm:text-2xl">
-              Benefits of Attending Tax Conference
-            </h2>
-
-            <p className="mx-auto mt-2 max-w-3xl text-center text-[14px] text-[#666666] sm:text-lg">
-              Our approach ensures your data strategy delivers measurable business outcomes through continuous optimisation.
-            </p>
-
-            <div className="mt-8 grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-              {benefitCards.map((card) => (
-                <div
-                
-                  className="overflow-hidden bg-white"
-                >
-                  <Image
-                    src={card.image}
-                    alt={card.title}
-                    width={500}
-                    height={400}
-                    className="w-full h-44 object-cover"
-                  />
-
-                  <div className="p-4">
-                   
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </section>

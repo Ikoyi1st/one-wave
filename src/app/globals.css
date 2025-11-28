@@ -59,3 +59,9 @@ h1, h2, h3, h4, h5, h6, .font-display {
   background-size: cover;
   background-position: center;
 }
+
+.tax-background{
+  background-image: url('/tax-bg.png');
+  background-size: cover;
+  background-position: center;
+}

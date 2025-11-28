@@ -18,7 +18,7 @@ const bannerSlides = [
   },
   { 
     id: 2,
-    imageSrc: "/container-1.png", 
+    imageSrc: "/container-tax.png", 
     imageAlt: "Tax Conference Banner",
     title: "Tax Conference",
     subtitle: "Driving the Future of Power Through Strategic Investment, Innovation, and Collaboration",
@@ -30,12 +30,12 @@ const bannerSlides = [
     imageAlt: "Electricity Conference Banner",
     title: "Electricity Conference",
     subtitle: "Uniting Leaders to Shape the Future of Tax Compliance, Digital Transformation, and Economic Governance",
-    link: "/maritime-summit"
+    link: "/electricity-conference"
   },
   // Add more slides here...
 ];
 
-const ROTATION_INTERVAL = 5000; // Rotate every 5 seconds (5000ms)
+const ROTATION_INTERVAL = 30000; // Rotate every 5 seconds (5000ms)
 
 function FullBannerCarousel() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
